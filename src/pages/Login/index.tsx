@@ -1,6 +1,6 @@
 import { useContext, useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import { AuthContext, UserRole } from "../context/AuthContextProvider";
+import { AuthContext, UserRole } from "../../context/AuthContextProvider";
 
 type UserType = {
   id: string;
@@ -49,7 +49,6 @@ export default function Login() {
         throw new Error("Email ou senha incorretos");
       }
 
-      // Chamada corrigida para login
       login({
         id: user.id,
         email: user.email,
