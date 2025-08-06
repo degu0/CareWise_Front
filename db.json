@@ -12,5 +12,67 @@
       "password": "user123",
       "role": "user"
     }
+  ],
+  "patients": [
+    {
+      "id": "1",
+      "name": "José Oliveira da Silva",
+      "age": "52 anos",
+      "gender": "Masculino",
+      "lastAppointment": "2023-11-15",
+      "nextAppointment": "2024-02-10",
+      "medicalRecord": "Hipertensão estágio 2, diabetes tipo 2",
+      "status": "Em tratamento"
+    },
+    {
+      "id": "2",
+      "name": "Ana Claudia Mendonça",
+      "age": "34 anos",
+      "gender": "Feminino",
+      "lastAppointment": "2023-12-05",
+      "nextAppointment": "2024-03-01",
+      "medicalRecord": "Asma brônquica, rinite alérgica",
+      "status": "Acompanhamento periódico"
+    },
+    {
+      "id": "3",
+      "name": "Carlos Augusto Pereira",
+      "age": "68 anos",
+      "gender": "Masculino",
+      "lastAppointment": "2024-01-10",
+      "nextAppointment": "2024-01-30",
+      "medicalRecord": "Pós-operatório de prótese de quadril",
+      "status": "Recuperação"
+    },
+    {
+      "id": "4",
+      "name": "Mariana Santos Rocha",
+      "age": "29 anos",
+      "gender": "Feminino",
+      "lastAppointment": "2023-11-28",
+      "nextAppointment": null,
+      "medicalRecord": "Pré-natal - 24ª semana",
+      "status": "Rotina"
+    },
+    {
+      "id": "5",
+      "name": "Roberto Nascimento Costa",
+      "age": "45 anos",
+      "gender": "Masculino",
+      "lastAppointment": "2023-10-20",
+      "nextAppointment": "2024-04-15",
+      "medicalRecord": "Check-up anual, sem comorbidades",
+      "status": "Saudável"
+    },
+    {
+      "id": "6",
+      "name": "Fernanda Lima de Oliveira",
+      "age": "60 anos",
+      "gender": "Feminino",
+      "lastAppointment": "2024-01-05",
+      "nextAppointment": "2024-01-26",
+      "medicalRecord": "Osteoporose, hipotireoidismo",
+      "status": "Tratamento contínuo"
+    }
   ]
 }

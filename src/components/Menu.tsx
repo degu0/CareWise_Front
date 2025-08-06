@@ -17,7 +17,7 @@ export const Menu = () => {
   };
 
   return (
-    <div className="fixed left-0 top-0 h-screen w-64 bg-gray-800 text-white flex flex-col">
+    <div className="w-64 h-full bg-gray-800 text-white flex flex-col">
       <div className="flex items-center gap-4 p-4 border-b border-gray-700">
         <img src={logo} alt="logo" className="w-10 h-10" />
         <h1 className="text-xl font-bold">CareWise</h1>
