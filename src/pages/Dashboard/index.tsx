@@ -1,7 +1,10 @@
+import { Menu } from "../../components/Menu";
+
 export default function Dashboard() {
-  return(
+  return (
     <div>
+      <Menu />
       Dashboard
     </div>
-  )
+  );
 }
