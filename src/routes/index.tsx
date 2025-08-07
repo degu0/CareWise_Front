@@ -8,19 +8,21 @@ import Patient from "../pages/Patient";
 import Dashboard from "../pages/Dashboard";
 import MedicalRecords from "../pages/MedicalRecords";
 import { MainLayout } from "../layout/MainLayout";
+import SearchResult from "../pages/SearchResults";
 
 export function AppRouter() {
   return (
     <Routes>
       <Route path="/" element={<MainLayout />}>
         <Route index element={<Home />} />
+        <Route path="/paciente/:id" element={<Patient />} />
         <Route path="/paciente/lista" element={<PatientList />} />
         <Route path="/paciente/cadastro" element={<PatientRegister />} />
+        <Route path="/pesquisa/:value" element={<SearchResult />} />
         <Route path="/dashboard" element={<Dashboard />} />
       </Route>
       <Route path="/login" element={<Login />} />
       <Route path="/cadastro" element={<RegisterLogin />} />
-      <Route path="/paciente/:id" element={<Patient />} />
       <Route path="/prontuario/:id" element={<MedicalRecords />} />
     </Routes>
   );

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { InputSearch } from "../../components/InputSearch";
+import { SearchInput } from "../../components/SearchInput";
 import { Card } from "../../components/Card";
 
 type PatientsType = {
@@ -38,13 +38,14 @@ export default function Home() {
         <h1 className="text-center font-medium text-3xl">Olá, Dr. Deyvid</h1>
       </div>
       <div>
-        <InputSearch
-        />
+        <SearchInput />
       </div>
       <div className="flex flex-col gap-5">
         <div className="flex grid-cols-2 gap-5 px-10">
           <Card width="w-full" height="h-full">
-            <h2 className="font-semibold text-lg">Lista de pacientes para atender</h2>
+            <h2 className="font-semibold text-lg">
+              Lista de pacientes para atender
+            </h2>
             {patients.map((patient) => (
               <div
                 key={patient.id}
@@ -68,7 +69,9 @@ export default function Home() {
         </div>
         <div className="px-10 pb-5">
           <Card width="w-full" height="h-full">
-            <h2 className="font-semibold text-lg">Ultimos prontuarios acessados</h2>
+            <h2 className="font-semibold text-lg">
+              Ultimos prontuarios acessados
+            </h2>
             {patients.map((patient) => (
               <div
                 key={patient.id}
