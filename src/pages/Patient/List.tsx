@@ -5,11 +5,14 @@ import { DropdownSelect } from "../../components/Dropdown";
 type PatientsType = {
   id: string;
   name: string;
-  age: string;
+  yearOfBirth: string;
   gender: string;
-  lastAppointment: string;
-  nextAppointment: string | null;
-  status: string;
+  cpf: string;
+  unimedCard: string;
+  address: string;
+  phone: string;
+  city: string;
+  state: string;
 };
 
 export default function PatientList() {
@@ -68,10 +71,25 @@ export default function PatientList() {
     setFilteredPatients(filtered);
   };
 
-  const formatDate = (dateString: string | null) => {
-    if (!dateString) return "Não agendado";
-    return new Date(dateString).toLocaleDateString("pt-BR");
-  };
+  function ageCalculate(yearOfBirth: string): number {
+    const today = new Date();
+    const birth = new Date(yearOfBirth);
+
+    let age = today.getFullYear() - birth.getFullYear();
+    const currentMonth = today.getMonth();
+    const currentDay = today.getDate();
+    const birthMonth = birth.getMonth();
+    const birthDay = birth.getDate();
+
+    if (
+      currentMonth < birthMonth ||
+      (currentMonth === birthMonth && currentDay < birthDay)
+    ) {
+      age--;
+    }
+
+    return age;
+  }
 
   const handleCellClick = (id: string) => {
     navigate(`/paciente/${id}`);
@@ -97,50 +115,42 @@ export default function PatientList() {
       </div>
       {filteredPatients.length === 0 ? (
         <div>
-          <h2 className="font-medium text-xl text-center">Nenhum dado encontrado</h2>
+          <h2 className="font-medium text-xl text-center">
+            Nenhum dado encontrado
+          </h2>
         </div>
       ) : (
-        <div className="relative z-0 overflow-x-auto shadow-md sm:rounded-lg max-h-[500px] overflow-y-auto">
+        <div className="relative z-0 overflow-x-auto shadow-md sm:rounded-lg overflow-y-auto">
           <table className="w-full text-sm text-left text-gray-700">
-            <thead className="text-xs uppercase bg-gray-100 sticky top-0 z-10">
+            <thead className="text-sm uppercase bg-gray-100 sticky top-0 z-10">
               <tr>
-                <th className="px-6 py-3">Nome do Paciente</th>
+                <th className="px-6 py-3">Nome</th>
                 <th className="px-6 py-3">Idade</th>
                 <th className="px-6 py-3">Gênero</th>
-                <th className="px-6 py-3">Última Consulta</th>
-                <th className="px-6 py-3">Próxima Consulta</th>
-                <th className="px-6 py-3">Status</th>
+                <th className="px-6 py-3">CPF</th>
+                <th className="px-6 py-3">Numero da Carterinha</th>
+                <th className="px-6 py-3">Endereço</th>
+                <th className="px-6 py-3">Telefone</th>
+                <th className="px-6 py-3">Cidade</th>
+                <th className="px-6 py-3">Estado</th>
               </tr>
             </thead>
             <tbody>
               {filteredPatients.map((p, index) => (
                 <tr
                   key={index}
-                  className="bg-white border-b hover:bg-gray-50 transition-colors"
+                  className="bg-white border-b hover:bg-gray-50 transition-colors text-sm text-center cursor-pointer"
                   onClick={() => handleCellClick(p.id)}
                 >
-                  <td className="px-6 py-4 cursor-pointer">{p.name}</td>
-                  <td className="px-6 py-4 cursor-pointer">{p.age}</td>
-                  <td className="px-6 py-4 cursor-pointer">{p.gender}</td>
-                  <td className="px-6 py-4 cursor-pointer">
-                    {formatDate(p.lastAppointment)}
-                  </td>
-                  <td className="px-6 py-4 cursor-pointer">
-                    {formatDate(p.nextAppointment)}
-                  </td>
-                  <td className="px-6 py-4">
-                    <span
-                      className={`px-2 py-1 rounded-full text-xs ${
-                        p.status === "Saudável"
-                          ? "bg-green-100 text-green-800"
-                          : p.status === "Emergência"
-                          ? "bg-red-100 text-red-800"
-                          : "bg-blue-100 text-blue-800"
-                      }`}
-                    >
-                      {p.status}
-                    </span>
-                  </td>
+                  <td className="px-6 py-4">{p.name}</td>
+                  <td className="px-6 py-4">{ageCalculate(p.yearOfBirth)}</td>
+                  <td className="px-6 py-4">{p.gender}</td>
+                  <td className="px-6 py-4">{p.cpf}</td>
+                  <td className="px-6 py-4">{p.unimedCard}</td>
+                  <td className="px-6 py-4">{p.address}</td>
+                  <td className="px-6 py-4">{p.phone}</td>
+                  <td className="px-6 py-4">{p.city}</td>
+                  <td className="px-6 py-4">{p.state}</td>
                 </tr>
               ))}
             </tbody>

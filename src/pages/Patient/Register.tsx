@@ -1,185 +1,204 @@
-import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { patientSchema, type PatientFormData } from "../../hooks/schemas";
+import { Input } from "../../components/Input";
+
+const formatPhone = (value: string) => {
+  const numbers = value.replace(/\D/g, "");
+  if (numbers.length <= 2) return numbers;
+  if (numbers.length <= 7) return `(${numbers.slice(0, 2)}) ${numbers.slice(2)}`;
+  return `(${numbers.slice(0, 2)}) ${numbers.slice(2, 7)}-${numbers.slice(7, 11)}`;
+};
+
+const formatCpf = (value: string) => {
+  const numbers = value.replace(/\D/g, "");
+  if (numbers.length <= 3) return numbers;
+  if (numbers.length <= 6) return `${numbers.slice(0, 3)}.${numbers.slice(3)}`;
+  if (numbers.length <= 9) return `${numbers.slice(0, 3)}.${numbers.slice(3, 6)}.${numbers.slice(6)}`;
+  return `${numbers.slice(0, 3)}.${numbers.slice(3, 6)}.${numbers.slice(6, 9)}-${numbers.slice(9, 11)}`;
+};
+
+const formatUnimedCard = (value: string) => {
+  const numbers = value.replace(/\D/g, "");
+  if (numbers.length <= 1) return numbers;
+  if (numbers.length <= 4) return `${numbers.slice(0, 1)} ${numbers.slice(1, 4)}`;
+  if (numbers.length <= 15) return `${numbers.slice(0, 1)} ${numbers.slice(1, 4)} ${numbers.slice(4, 15)}`;
+  return `${numbers.slice(0, 1)} ${numbers.slice(1, 4)} ${numbers.slice(4, 16)} ${numbers.slice(16, 17)}`;
+};
 
 export default function PatientRegister() {
-  const [formData, setFormData] = useState({
-    name: "",
-    yearOfBirth: "",
-    gender: "",
-    cpf: "",
-    unimedCard: "",
-    address: "",
-    phone: "",
-    email: "",
-    city: "",
-    nationality: "",
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+    setValue,
+  } = useForm<PatientFormData>({
+    resolver: zodResolver(patientSchema),
   });
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-  ) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
+  const onSubmit = async (data: PatientFormData) => {
     try {
       const response = await fetch("http://localhost:3000/patients", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
       });
 
-      if (!response.ok) {
-        console.error("Erro ao registrar paciente");
-        return;
-      }
+      if (!response.ok) throw new Error("Erro ao registrar paciente");
 
-      const data = await response.json();
-      console.log("Paciente registrado com sucesso:", data);
-
-      setFormData({
-        name: "",
-        yearOfBirth: "",
-        gender: "",
-        cpf: "",
-        unimedCard: "",
-        address: "",
-        phone: "",
-        email: "",
-        city: "",
-        nationality: "",
-      });
+      const result = await response.json();
+      console.log("Sucesso:", result);
+      reset();
     } catch (error) {
-      console.error("Erro na requisição:", error);
+      console.error("Erro:", error);
     }
   };
 
   return (
-    <div className="max-w-lg mx-auto p-4">
+    <div className="max-w-5xl mx-auto p-4">
       <h2 className="text-xl font-bold mb-4">Cadastrar Paciente</h2>
-      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-
-        <div>
-          <label htmlFor="name">Nome Completo</label>
-          <input
-            type="text"
-            id="name"
+      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-10">
+        <div className="flex flex-col gap-5">
+          <Input
+            label="Nome Completo"
             name="name"
-            value={formData.name}
-            onChange={handleChange}
+            register={register}
+            error={errors.name}
+            required
           />
-        </div>
 
-        <div>
-          <label htmlFor="yearOfBirth">Ano de Nascimento</label>
-          <input
-            type="date"
-            id="yearOfBirth"
-            name="yearOfBirth"
-            value={formData.yearOfBirth}
-            onChange={handleChange}
-          />
-        </div>
+          <div className="flex justify-between gap-5">
+            <Input
+              label="Ano de Nascimento"
+              name="yearOfBirth"
+              type="date"
+              register={register}
+              error={errors.yearOfBirth}
+              required
+            />
 
-        <div>
-          <label htmlFor="gender">Sexo</label>
-          <select
-            id="gender"
-            name="gender"
-            value={formData.gender}
-            onChange={handleChange}
-          >
-            <option value="">Selecione</option>
-            <option value="Masculino">Masculino</option>
-            <option value="Feminino">Feminino</option>
-          </select>
-        </div>
+            <div className="flex flex-col gap-1 w-full">
+              <label htmlFor="gender" className="font-medium">
+                Sexo <span className="text-red-500">*</span>
+              </label>
+              <select
+                id="gender"
+                {...register("gender")}
+                className={`w-full p-2 border rounded-md ${
+                  errors.gender ? "border-red-500" : "border-gray-300"
+                }`}
+              >
+                <option value="">Selecione</option>
+                <option value="Masculino">Masculino</option>
+                <option value="Feminino">Feminino</option>
+              </select>
+              {errors.gender && (
+                <span className="text-red-500 text-sm">
+                  {errors.gender.message}
+                </span>
+              )}
+            </div>
+          </div>
 
-        <div>
-          <label htmlFor="cpf">CPF</label>
-          <input
-            type="text"
-            id="cpf"
-            name="cpf"
-            value={formData.cpf}
-            onChange={handleChange}
-          />
-        </div>
+          {/* UNIMED CARD */}
+          <div className="flex flex-col gap-1 w-full">
+            <label htmlFor="unimedCard" className="font-medium">
+              Numero da carterinha <span className="text-red-500">*</span>
+            </label>
+            <input
+              id="unimedCard"
+              type="text"
+              {...register("unimedCard")}
+              onChange={(e) => setValue("unimedCard", formatUnimedCard(e.target.value))}
+              placeholder="9 999 999999999999 9"
+              className={`w-full p-2 border rounded-md ${
+                errors.unimedCard ? "border-red-500" : "border-gray-300"
+              }`}
+            />
+            {errors.unimedCard && (
+              <span className="text-red-500 text-sm">
+                {errors.unimedCard.message}
+              </span>
+            )}
+          </div>
 
-        <div>
-          <label htmlFor="unimedCard">Carteirinha da Unimed</label>
-          <input
-            type="text"
-            id="unimedCard"
-            name="unimedCard"
-            value={formData.unimedCard}
-            onChange={handleChange}
-          />
-        </div>
+          <div className="flex justify-between gap-5">
+            {/* CPF */}
+            <div className="flex flex-col gap-1 w-full">
+              <label htmlFor="cpf" className="font-medium">
+                CPF <span className="text-red-500">*</span>
+              </label>
+              <input
+                id="cpf"
+                type="text"
+                {...register("cpf")}
+                onChange={(e) => setValue("cpf", formatCpf(e.target.value))}
+                placeholder="999.999.999-99"
+                className={`w-full p-2 border rounded-md ${
+                  errors.cpf ? "border-red-500" : "border-gray-300"
+                }`}
+              />
+              {errors.cpf && (
+                <span className="text-red-500 text-sm">{errors.cpf.message}</span>
+              )}
+            </div>
 
-        <div>
-          <label htmlFor="address">Endereço Residencial</label>
-          <input
-            type="text"
-            id="address"
+            {/* PHONE */}
+            <div className="flex flex-col gap-1 w-full">
+              <label htmlFor="phone" className="font-medium">
+                Telefone <span className="text-red-500">*</span>
+              </label>
+              <input
+                id="phone"
+                type="text"
+                {...register("phone")}
+                onChange={(e) => setValue("phone", formatPhone(e.target.value))}
+                placeholder="(99) 99999-9999"
+                className={`w-full p-2 border rounded-md ${
+                  errors.phone ? "border-red-500" : "border-gray-300"
+                }`}
+              />
+              {errors.phone && (
+                <span className="text-red-500 text-sm">{errors.phone.message}</span>
+              )}
+            </div>
+          </div>
+
+          <Input
+            label="Endereço"
             name="address"
-            value={formData.address}
-            onChange={handleChange}
+            register={register}
+            error={errors.address}
+            required
           />
+
+          <div className="flex justify-between gap-5">
+            <Input
+              label="Cidade"
+              name="city"
+              register={register}
+              error={errors.city}
+              required
+            />
+            <Input
+              label="Estado"
+              name="state"
+              register={register}
+              error={errors.state}
+              required
+            />
+          </div>
         </div>
 
-        <div>
-          <label htmlFor="phone">Telefone</label>
-          <input
-            type="text"
-            id="phone"
-            name="phone"
-            value={formData.phone}
-            onChange={handleChange}
-          />
+        <div className="flex justify-center">
+          <button
+            type="submit"
+            className="w-50 bg-blue-950 py-3 text-white border-none rounded-sm cursor-pointer"
+          >
+            Cadastrar
+          </button>
         </div>
-
-        <div>
-          <label htmlFor="email">E-mail</label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-          />
-        </div>
-
-        <div>
-          <label htmlFor="city">Cidade</label>
-          <input
-            type="text"
-            id="city"
-            name="city"
-            value={formData.city}
-            onChange={handleChange}
-          />
-        </div>
-
-        <div>
-          <label htmlFor="nationality">Nacionalidade</label>
-          <input
-            type="text"
-            id="nationality"
-            name="nationality"
-            value={formData.nationality}
-            onChange={handleChange}
-          />
-        </div>
-
-        <button type="submit">Cadastrar</button>
       </form>
     </div>
   );

@@ -15,72 +15,124 @@
   ],
   "patients": [
     {
-      "id": "1",
-      "name": "José Oliveira da Silva",
-      "age": "52 anos",
-      "gender": "Masculino",
-      "lastAppointment": "2023-11-15",
-      "nextAppointment": "2024-02-10",
-      "medicalRecord": "Hipertensão estágio 2, diabetes tipo 2",
-      "status": "Em tratamento"
-    },
-    {
-      "id": "2",
-      "name": "Ana Claudia Mendonça",
-      "age": "34 anos",
+      "id": 1,
+      "name": "Maria Clara Souza",
+      "yearOfBirth": "1990-05-12",
       "gender": "Feminino",
-      "lastAppointment": "2023-12-05",
-      "nextAppointment": "2024-03-01",
-      "medicalRecord": "Asma brônquica, rinite alérgica",
-      "status": "Acompanhamento periódico"
+      "cpf": "123.456.789-01",
+      "unimedCard": "9 123 456789012345 1",
+      "address": "Rua das Flores, 123",
+      "phone": "(11) 98765-4321",
+      "city": "São Paulo",
+      "state": "SP"
     },
     {
-      "id": "3",
-      "name": "Carlos Augusto Pereira",
-      "age": "68 anos",
+      "id": 2,
+      "name": "João Pedro Almeida",
+      "yearOfBirth": "1985-09-23",
       "gender": "Masculino",
-      "lastAppointment": "2024-01-10",
-      "nextAppointment": "2024-01-30",
-      "medicalRecord": "Pós-operatório de prótese de quadril",
-      "status": "Recuperação"
+      "cpf": "987.654.321-00",
+      "unimedCard": "8 456 123456789012 3",
+      "address": "Av. Paulista, 1000",
+      "phone": "(21) 99876-5432",
+      "city": "Rio de Janeiro",
+      "state": "RJ"
     },
     {
-      "id": "4",
-      "name": "Mariana Santos Rocha",
-      "age": "29 anos",
-      "gender": "Feminino",
-      "lastAppointment": "2023-11-28",
-      "nextAppointment": null,
-      "medicalRecord": "Pré-natal - 24ª semana",
-      "status": "Rotina"
-    },
-    {
-      "id": "5",
-      "name": "Roberto Nascimento Costa",
-      "age": "45 anos",
+      "id": 3,
+      "name": "Lucas Ferreira",
+      "yearOfBirth": "1995-02-14",
       "gender": "Masculino",
-      "lastAppointment": "2023-10-20",
-      "nextAppointment": "2024-04-15",
-      "medicalRecord": "Check-up anual, sem comorbidades",
-      "status": "Saudável"
+      "cpf": "321.654.987-45",
+      "unimedCard": "7 789 654321098765 4",
+      "address": "Rua Central, 500",
+      "phone": "(31) 91234-5678",
+      "city": "Belo Horizonte",
+      "state": "MG"
     },
     {
-      "id": "6",
-      "name": "Fernanda Lima de Oliveira",
-      "age": "60 anos",
+      "id": 4,
+      "name": "Ana Beatriz Santos",
+      "yearOfBirth": "1998-11-30",
       "gender": "Feminino",
-      "lastAppointment": "2024-01-05",
-      "nextAppointment": "2024-01-26",
-      "medicalRecord": "Osteoporose, hipotireoidismo",
-      "status": "Tratamento contínuo"
+      "cpf": "456.789.123-22",
+      "unimedCard": "6 234 789012345678 2",
+      "address": "Rua A, 45",
+      "phone": "(41) 99888-7766",
+      "city": "Curitiba",
+      "state": "PR"
     },
     {
-      "id": "3f09",
-      "name": "FormData"
+      "id": 5,
+      "name": "Carlos Henrique Lima",
+      "yearOfBirth": "1975-07-19",
+      "gender": "Masculino",
+      "cpf": "654.321.987-33",
+      "unimedCard": "5 567 890123456789 5",
+      "address": "Rua B, 200",
+      "phone": "(51) 97777-6655",
+      "city": "Porto Alegre",
+      "state": "RS"
     },
     {
-      "id": "b61e",
-      "name": "olasd"
+      "id": 6,
+      "name": "Fernanda Oliveira",
+      "yearOfBirth": "1989-04-08",
+      "gender": "Feminino",
+      "cpf": "789.123.456-11",
+      "unimedCard": "4 890 123456789012 6",
+      "address": "Rua C, 300",
+      "phone": "(71) 96666-5544",
+      "city": "Salvador",
+      "state": "BA"
+    },
+    {
+      "id": 7,
+      "name": "Rafael Costa",
+      "yearOfBirth": "1993-12-05",
+      "gender": "Masculino",
+      "cpf": "852.963.741-99",
+      "unimedCard": "3 345 678901234567 7",
+      "address": "Rua D, 150",
+      "phone": "(85) 95555-4433",
+      "city": "Fortaleza",
+      "state": "CE"
+    },
+    {
+      "id": 8,
+      "name": "Juliana Mendes",
+      "yearOfBirth": "1991-08-21",
+      "gender": "Feminino",
+      "cpf": "147.258.369-88",
+      "unimedCard": "2 678 901234567890 8",
+      "address": "Rua E, 75",
+      "phone": "(62) 94444-3322",
+      "city": "Goiânia",
+      "state": "GO"
+    },
+    {
+      "id": 9,
+      "name": "Bruno Martins",
+      "yearOfBirth": "1980-06-02",
+      "gender": "Masculino",
+      "cpf": "963.852.741-77",
+      "unimedCard": "1 901 234567890123 9",
+      "address": "Rua F, 400",
+      "phone": "(98) 93333-2211",
+      "city": "São Luís",
+      "state": "MA"
+    },
+    {
+      "id": 10,
+      "name": "Patrícia Gomes",
+      "yearOfBirth": "2000-01-15",
+      "gender": "Feminino",
+      "cpf": "159.357.486-66",
+      "unimedCard": "0 012 345678901234 0",
+      "address": "Rua G, 999",
+      "phone": "(95) 92222-1100",
+      "city": "Boa Vista",
+      "state": "RR"
     }
   ]
 }
