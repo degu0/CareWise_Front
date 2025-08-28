@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { FaPlus } from "react-icons/fa";
 import { IoClose } from "react-icons/io5";
 import { useParams } from "react-router-dom";
 
@@ -89,11 +90,11 @@ export default function MedicalRecords() {
   return (
     <main className="max-w-3xl mx-auto p-6 space-y-6 h-screen">
       {patient ? (
-        <section className="bg-white rounded-2xl shadow-md border border-gray-200 p-6">
-          <h1 className="text-2xl font-semibold text-gray-900 mb-4">
+        <section className="bg-white rounded-2xl shadow-md border border-zinc-200 p-6">
+          <h1 className="text-2xl font-semibold text-zinc-900 mb-4">
             {patient.name}
           </h1>
-          <div className="grid grid-cols-2 gap-4 text-gray-600 text-sm">
+          <div className="grid grid-cols-2 gap-4 text-zinc-600 text-sm">
             <p>
               <span className="font-medium">Idade:</span> {patient.yearOfBirth}
             </p>
@@ -106,19 +107,19 @@ export default function MedicalRecords() {
           </div>
         </section>
       ) : (
-        <p className="text-center text-gray-500">Carregando paciente...</p>
+        <p className="text-center text-zinc-500">Carregando paciente...</p>
       )}
 
       {/* SINTOMAS */}
-      <section className="bg-white rounded-2xl shadow-md border border-gray-200 p-6">
+      <section className="bg-white rounded-2xl shadow-md border border-zinc-200 p-6">
         <div className="flex justify-between items-center mb-4">
-          <h3 className="text-lg font-semibold text-gray-900">Sintomas</h3>
+          <h3 className="text-lg font-semibold text-zinc-900">Sintomas</h3>
           <button
             type="button"
             onClick={() => setMostrarSintomas((v) => !v)}
-            className="w-9 h-9 border border-gray-300 rounded-full text-xl flex items-center justify-center hover:bg-gray-100 transition"
+            className="w-9 h-9 border border-zinc-300 rounded-full text-xl flex items-center justify-center hover:bg-zinc-100 transition cursor-pointer"
           >
-            +
+            <FaPlus size={12} />
           </button>
         </div>
 
@@ -129,12 +130,12 @@ export default function MedicalRecords() {
               value={novoSintoma}
               onChange={(e) => setNovoSintoma(e.target.value)}
               placeholder="Descreva o sintoma..."
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full border border-zinc-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500"
             />
             <button
               type="button"
               onClick={salvarSintoma}
-              className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition"
+              className="bg-teal-600 text-white px-4 py-2 rounded-lg hover:bg-teal-700 transition cursor-pointer"
             >
               Salvar
             </button>
@@ -146,7 +147,7 @@ export default function MedicalRecords() {
             {sintomas.map((s) => (
               <li
                 key={s.id}
-                className="bg-gray-50 border border-gray-200 rounded-lg p-3 text-gray-800 text-sm flex items-center justify-between"
+                className="bg-zinc-50 border border-zinc-200 rounded-lg p-3 text-zinc-800 text-sm flex items-center justify-between"
               >
                 <span>{s.descricao}</span>
                 <IoClose
@@ -159,16 +160,15 @@ export default function MedicalRecords() {
         )}
       </section>
 
-      {/* EXAMES */}
-      <section className="bg-white rounded-2xl shadow-md border border-gray-200 p-6">
+      <section className="bg-white rounded-2xl shadow-md border border-zinc-200 p-6">
         <div className="flex justify-between items-center mb-4">
-          <h3 className="text-lg font-semibold text-gray-900">Exames</h3>
+          <h3 className="text-lg font-semibold text-zinc-900">Exames</h3>
           <button
             type="button"
             onClick={() => setMostrarExames((v) => !v)}
-            className="w-9 h-9 border border-gray-300 rounded-full text-xl flex items-center justify-center hover:bg-gray-100 transition"
+            className="w-9 h-9 border border-zinc-300 rounded-full text-xl flex items-center justify-center hover:bg-zinc-100 transition cursor-pointer"
           >
-            +
+            <FaPlus size={12} />
           </button>
         </div>
 
@@ -179,18 +179,18 @@ export default function MedicalRecords() {
               value={nomeExame}
               onChange={(e) => setNomeExame(e.target.value)}
               placeholder="Nome do exame..."
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full border border-zinc-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500"
             />
             <textarea
               value={resultadoExame}
               onChange={(e) => setResultadoExame(e.target.value)}
               placeholder="Resultado do exame..."
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 min-h-[100px]"
+              className="w-full border border-zinc-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-teal-500 min-h-[100px]"
             />
             <button
               type="button"
               onClick={salvarExame}
-              className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition"
+              className="bg-teal-600 text-white px-4 py-2 rounded-lg hover:bg-teal-700 transition cursor-pointer"
             >
               Salvar
             </button>
@@ -202,10 +202,10 @@ export default function MedicalRecords() {
             {exames.map((e) => (
               <li
                 key={e.id}
-                className="bg-gray-50 border border-gray-200 rounded-lg p-3 text-gray-800 text-sm flex items-center justify-between"
+                className="bg-zinc-50 border border-zinc-200 rounded-lg p-3 text-zinc-800 text-sm flex items-center justify-between"
               >
                 <div>
-                  <p className="font-medium text-gray-900 mb-1">
+                  <p className="font-medium text-zinc-900 mb-1">
                     {e.nome || "Exame"}
                   </p>
                   {e.resultado && <p>{e.resultado}</p>}

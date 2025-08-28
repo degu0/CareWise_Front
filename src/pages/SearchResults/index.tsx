@@ -63,7 +63,7 @@ export default function SearchResult() {
               ? "bg-green-100 text-green-800"
               : p.status === "Emergência"
               ? "bg-red-100 text-red-800"
-              : "bg-blue-100 text-blue-800"
+              : "bg-teal-100 text-teal-800"
           }`}
         >
           {p.status}

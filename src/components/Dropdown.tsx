@@ -62,7 +62,7 @@ export const DropdownSelect = ({
         }}
         aria-haspopup="listbox"
         aria-expanded={isOpen}
-        className={`text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex items-center justify-between w-full dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 ${className}`}
+        className={`text-white bg-teal-700 hover:bg-teal-800 focus:ring-4 focus:outline-none focus:ring-teal-300 font-medium rounded-lg text-sm px-5 py-2.5 inline-flex items-center justify-between w-full dark:bg-teal-600 dark:hover:bg-teal-700 dark:focus:ring-teal-800 ${className}`}
         type="button"
       >
         <span className="truncate">{selected || placeholder}</span>
@@ -85,16 +85,16 @@ export const DropdownSelect = ({
 
       {isOpen && (
         <div
-          className="absolute z-30 mt-1 w-full bg-white divide-y divide-gray-100 rounded-lg shadow-lg dark:bg-gray-700"
+          className="absolute z-30 mt-1 w-full bg-white divide-y divide-zinc-100 rounded-lg shadow-lg dark:bg-zinc-700"
           role="listbox"
         >
-          <ul className="py-1 text-sm text-gray-700 dark:text-gray-200 max-h-60 overflow-auto">
+          <ul className="py-1 text-sm text-zinc-700 dark:text-zinc-200 max-h-60 overflow-auto">
             {data.map((item, index) => (
               <li 
                 key={index} 
                 role="option"
                 aria-selected={selected === item}
-                className={`px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white cursor-pointer ${selected === item ? "bg-blue-100 dark:bg-blue-800" : ""}`}
+                className={`px-4 py-2 hover:bg-zinc-100 dark:hover:bg-zinc-600 dark:hover:text-white cursor-pointer ${selected === item ? "bg-teal-100 dark:bg-teal-800" : ""}`}
                 onClick={() => handleSelect(item)}
                 onKeyDown={(e) => handleKeyDown(e, item)}
                 tabIndex={0}

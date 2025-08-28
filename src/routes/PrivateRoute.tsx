@@ -19,6 +19,9 @@ export function PrivateRoute({
   const { user, isAuthenticated } = useContext(AuthContext);
   const location = useLocation();
 
+  console.log("isAuthenticated:", isAuthenticated, "user:", user);
+
+
   if (!isAuthenticated) {
     return (
       <Navigate

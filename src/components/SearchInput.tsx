@@ -25,7 +25,7 @@ export const SearchInput = ({ onSearch }: SearchInputProps) => {
         <input
           type="text"
           placeholder="Pesquisar pacientes"
-          className="w-full pl-12 pr-4 py-3 border border-gray-300 bg-white rounded-lg text-sm outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
+          className="w-full pl-12 pr-4 py-3 border border-zinc-300 bg-white rounded-lg text-sm outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 transition-all"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           onKeyDown={(e) => {
@@ -33,7 +33,7 @@ export const SearchInput = ({ onSearch }: SearchInputProps) => {
           }}
         />
         <button
-          className="absolute left-3 top-1/2 -translate-y-1/2 text-blue-600 hover:text-blue-700 transition-colors"
+          className="absolute left-3 top-1/2 -translate-y-1/2 text-teal-600 hover:text-teal-700 transition-colors"
           onClick={handleSearch}
         >
           <IoIosSearch size={22} />

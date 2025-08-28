@@ -33,14 +33,7 @@ export function AppRouter() {
           />
         </Route>
         <Route path="/pesquisa/:value" element={<SearchResult />} />
-        <Route
-          path="/chat"
-          element={
-            <PrivateRoute allowedRoles={[UserRole.DOCTOR]}>
-              <Chat />
-            </PrivateRoute>
-          }
-        />
+        <Route path="/chat" element={<Chat />} />
         <Route
           path="/prontuario/:id"
           element={

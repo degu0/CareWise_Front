@@ -24,8 +24,8 @@ export function Table<T>({
 }: TableProps<T>) {
   return (
     <div className={`relative overflow-x-auto shadow-md sm:rounded-lg ${className}`}>
-      <table className="w-full text-sm text-left text-gray-700">
-        <thead className="text-xs uppercase bg-gray-100">
+      <table className="w-full text-sm text-left text-zinc-700">
+        <thead className="text-xs uppercase bg-zinc-100">
           <tr>
             {columns.map((col) => (
               <th key={String(col.key)} className={`px-6 py-3 ${col.className ?? ''}`}>
@@ -43,7 +43,7 @@ export function Table<T>({
           {data.map((item, rowIndex) => (
             <tr
               key={rowIndex}
-              className="bg-white border-b hover:bg-gray-50 transition-colors"
+              className="bg-white border-b hover:bg-zinc-50 transition-colors"
             >
               {columns.map((col) => (
                 <td key={String(col.key)} className={`px-6 py-4 ${col.className ?? ''}`}>
@@ -54,7 +54,7 @@ export function Table<T>({
                 <td className="px-6 py-4 text-right">
                   <button
                     onClick={() => onAction(item)}
-                    className="font-medium text-blue-600 hover:underline"
+                    className="font-medium text-teal-600 hover:underline"
                   >
                     {actionLabel}
                   </button>

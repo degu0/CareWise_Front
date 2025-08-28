@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import {
   FaHome,
@@ -7,16 +7,36 @@ import {
   FaChartPie,
   FaSignOutAlt,
 } from "react-icons/fa";
+import { IoNotifications } from "react-icons/io5";
 import logo from "../assets/logo_branca.png";
 import { AuthContext } from "../context/AuthContextProvider";
+import { Drawer } from "./DrawerNotication";
 
 export const Menu = () => {
   const navigate = useNavigate();
   const { logout } = useContext(AuthContext);
   const [collapsed, setCollapsed] = useState(false);
+  const [isDrawerOpen, setDrawerOpen] = useState(false);
+  const [lengthNotifications, setLengthNotifications] = useState<number>(0);
+
+  useEffect(() => {
+    async function fetchNotifications() {
+      try {
+        const response = await fetch("http://localhost:3000/notifications");
+        const data = await response.json();
+
+        if (Array.isArray(data)) {
+          setLengthNotifications(data.length);
+        }
+      } catch (error) {
+        console.log("Erro na busca de dados", error);
+      }
+    }
+
+    fetchNotifications();
+  }, []);
 
   const userData = JSON.parse(localStorage.getItem("user") || "{}");
-  
 
   const handleLogout = () => {
     logout();
@@ -25,14 +45,14 @@ export const Menu = () => {
 
   return (
     <div
-      className={`h-screen bg-gray-900 text-white flex flex-col transition-all duration-300 ${
+      className={`h-screen bg-green-800 text-white flex flex-col transition-all duration-300 ${
         collapsed ? "w-22" : "w-64"
       }`}
     >
-      <div className="flex items-center justify-between p-4 border-b border-gray-700">
+      <div className="flex items-center justify-between p-4 border-b border-zinc-300">
         <button
           onClick={() => setCollapsed(!collapsed)}
-          className="text-xl px-2 py-1 rounded hover:bg-gray-700"
+          className="text-xl px-2 py-1 rounded cursor-pointer"
         >
           <div className="flex items-center gap-3">
             <img src={logo} alt="logo" className="w-10 h-10" />
@@ -45,24 +65,24 @@ export const Menu = () => {
         {userData.role === "doctor" ? (
           <Link
             to="/medico"
-            className="flex items-center gap-3 p-4 rounded-lg hover:bg-gray-700 transition"
+            className="flex items-center gap-3 p-4 rounded-lg hover:bg-green-700 transition cursor-pointer"
           >
             <FaHome />
-            {!collapsed && <span>Home Médico</span>}
+            {!collapsed && <span>Home</span>}
           </Link>
         ) : (
           <Link
             to="/enfermeira"
-            className="flex items-center gap-3 p-4 rounded-lg hover:bg-gray-700 transition"
+            className="flex items-center gap-3 p-4 rounded-lg hover:bg-green-700 transition cursor-pointer"
           >
             <FaHome />
-            {!collapsed && <span>Home Enfermeira</span>}
+            {!collapsed && <span>Home</span>}
           </Link>
         )}
 
         <Link
           to="/paciente/lista"
-          className="flex items-center gap-3 p-4 rounded-lg hover:bg-gray-700 transition"
+          className="flex items-center gap-3 p-4 rounded-lg hover:bg-green-700 transition cursor-pointer"
         >
           <FaUserFriends />
           {!collapsed && <span>Lista de Pacientes</span>}
@@ -71,7 +91,7 @@ export const Menu = () => {
         {userData.role === "nurse" && (
           <Link
             to="/paciente/cadastro"
-            className="flex items-center gap-3 p-4 rounded-lg hover:bg-gray-700 transition"
+            className="flex items-center gap-3 p-4 rounded-lg hover:bg-green-700 transition cursor-pointer"
           >
             <FaUserPlus />
             {!collapsed && <span>Cadastrar Paciente</span>}
@@ -82,14 +102,14 @@ export const Menu = () => {
           <>
             <Link
               to="/prontuario/1"
-              className="flex items-center gap-3 p-4 rounded-lg hover:bg-gray-700 transition"
+              className="flex items-center gap-3 p-4 rounded-lg hover:bg-green-700 transition cursor-pointer"
             >
               <FaUserPlus />
               {!collapsed && <span>Prontuário</span>}
             </Link>
             <Link
               to="/chat"
-              className="flex items-center gap-3 p-4 rounded-lg hover:bg-gray-700 transition"
+              className="flex items-center gap-3 p-4 rounded-lg hover:bg-green-700 transition cursor-pointer"
             >
               <FaChartPie />
               {!collapsed && <span>Chat</span>}
@@ -99,19 +119,34 @@ export const Menu = () => {
 
         <Link
           to="/dashboard"
-          className="flex items-center gap-3 p-4 rounded-lg hover:bg-gray-700 transition"
+          className="flex items-center gap-3 p-4 rounded-lg hover:bg-green-700 transition cursor-pointer"
         >
           <FaChartPie />
           {!collapsed && <span>Dashboard</span>}
         </Link>
       </div>
 
-      <div className="border-t border-gray-700 p-6">
+      <div className="border-t border-zinc-300 p-6">
+        <button
+          onClick={() => setDrawerOpen(true)}
+          className="relative flex items-center gap-3 w-full p-3 rounded-lg hover:bg-green-700 transition cursor-pointer"
+        >
+          <div className="relative">
+            <IoNotifications size={20} />
+            {lengthNotifications > 0 && (
+              <span className="absolute -top-2 -right-2 text-xs w-4.5 h-4.5 flex items-center justify-center rounded-full bg-red-500 text-white">
+                {lengthNotifications}
+              </span>
+            )}
+          </div>
+          {!collapsed && <span>Notificações</span>}
+        </button>
+        <Drawer isOpen={isDrawerOpen} onClose={() => setDrawerOpen(false)} />
         <button
           onClick={handleLogout}
-          className="flex items-center gap-3 w-full p-3 rounded-lg hover:bg-red-600 transition"
+          className="flex items-center gap-3 w-full p-3 mt-4 rounded-lg hover:bg-red-500 transition cursor-pointer"
         >
-          <FaSignOutAlt />
+          <FaSignOutAlt size={22} />
           {!collapsed && <span>Sair</span>}
         </button>
       </div>

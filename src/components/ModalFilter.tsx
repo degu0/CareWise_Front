@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { IoCloseSharp } from "react-icons/io5";
 
 interface ModalProps {
   close: () => void;
@@ -22,54 +23,65 @@ export const ModalFilter = ({ close, onApply }: ModalProps) => {
   };
 
   return (
-    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-      <div className="bg-white p-6 rounded-lg w-80">
+    <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+      <div className="bg-white p-6 rounded-lg w-120">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-lg font-semibold">Filtrar Pesquisa</h2>
           <button
             onClick={close}
-            className="text-gray-500 hover:text-gray-800 font-bold"
+            className="text-zinc-500 hover:text-zinc-800 font-bold cursor-pointer"
           >
-            X
+            <IoCloseSharp />
           </button>
         </div>
+
         <div className="mb-4">
           <p className="font-medium mb-2">Gênero:</p>
-          <div className="flex gap-4">
+          <div className="flex justify-around gap-4">
             <div className="flex items-center">
-              <input type="radio" name="gender" id="male" className="mr-2" onChange={() => setGender('male')} />
+              <input type="radio" name="gender" id="male" className="mr-2" onChange={() => setGender('masculino')} />
               <label htmlFor="male">Masculino</label>
             </div>
             <div className="flex items-center">
-              <input type="radio" name="gender" id="female" className="mr-2" onChange={() => setGender('female')} />
+              <input type="radio" name="gender" id="female" className="mr-2" onChange={() => setGender('feminino')} />
               <label htmlFor="female">Feminino</label>
+            </div>
+            <div className="flex items-center">
+              <input type="radio" name="gender" id="other" className="mr-2" onChange={() => setGender('outro')} />
+              <label htmlFor="other">Outro</label>
             </div>
           </div>
         </div>
-        <div className="mb-4">
+
+        <div className="mb-10">
           <p className="font-medium mb-2">Idade:</p>
-          <div className="flex gap-4">
+          <div className="flex gap-4 flex-wrap justify-around">
             <div className="flex items-center">
-              <input type="radio" name="age" id="under18" className="mr-2" onChange={() => setAge('-18')} />
+              <input type="radio" name="age" id="under18" className="mr-2" onChange={() => setAge('<18')} />
               <label htmlFor="under18">-18</label>
             </div>
             <div className="flex items-center">
-              <input type="radio" name="age" id="18plus" className="mr-2" onChange={() => setAge('18+')} />
-              <label htmlFor="18plus">18+</label>
+              <input type="radio" name="age" id="18to25" className="mr-2" onChange={() => setAge('18-25')} />
+              <label htmlFor="18to25">18-25</label>
+            </div>
+            <div className="flex items-center">
+              <input type="radio" name="age" id="26to40" className="mr-2" onChange={() => setAge('26-40')} />
+              <label htmlFor="26to40">26-40</label>
+            </div>
+            <div className="flex items-center">
+              <input type="radio" name="age" id="41to69" className="mr-2" onChange={() => setAge('41-69')} />
+              <label htmlFor="41to69">41-69</label>
+            </div>
+            <div className="flex items-center">
+              <input type="radio" name="age" id="70plus" className="mr-2" onChange={() => setAge('70+')} />
+              <label htmlFor="70plus">70+</label>
             </div>
           </div>
         </div>
-        <div className="mb-4">
-          <p className="font-medium mb-2">Doenças:</p>
-          <select className="w-full border border-gray-300 rounded p-2" onChange={(e) => setDisease(e.target.value)} value={disease}>
-            {doencas.map((doenca) => (
-              <option key={doenca} value={doenca}>
-                {doenca}
-              </option>
-            ))}
-          </select>
-        </div>
-        <button onClick={handleApply} className="bg-blue-500 text-white w-full py-2 rounded hover:bg-blue-600">
+        <button
+          onClick={handleApply}
+          className="bg-teal-500 text-white w-full py-2 rounded hover:bg-teal-600"
+        >
           Aplicar Filtros
         </button>
       </div>

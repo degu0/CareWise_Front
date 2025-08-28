@@ -6,9 +6,9 @@ type ChartProps = {
 
 export function VisitorsLineChart({ chartData }: ChartProps) {
   return (
-    <div className="w-full h-[350px] rounded-2xl border bg-white shadow-md p-4">
+    <div className="w-full h-[500px] rounded-2xl border bg-white shadow-md p-4">
       <h2 className="text-lg font-semibold mb-2">Visitors Overview</h2>
-      <p className="text-sm text-gray-500 mb-4">Últimos meses</p>
+      <p className="text-sm text-zinc-500 mb-4">Últimos meses</p>
 
       <ResponsiveContainer width="100%" height="80%">
         <LineChart data={chartData} margin={{ top: 20, right: 20, bottom: 10, left: 0 }}>

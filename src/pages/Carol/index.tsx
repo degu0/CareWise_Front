@@ -1,4 +1,6 @@
 import { useState, useEffect, useRef } from "react";
+import { FaPlus } from "react-icons/fa";
+import { IoSend } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
 
 interface Mensagem {
@@ -62,26 +64,22 @@ export default function Chat() {
     setInput("");
 
     try {
-      const patientId = localStorage.getItem("patientId");
-      if (!patientId) throw new Error("Paciente não definido");
-
-      const response = await fetch("http://localhost:3000/chat", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          patientId,
-          message: mensagemUsuario,
-        }),
-      });
-
-      if (!response.ok) throw new Error("Erro na API de chat");
-
-      const data = await response.json();
-
-      setMensagens((prev) => [
-        ...prev,
-        { texto: data.response, deUsuario: false },
-      ]);
+      // const patientId = patient.id;
+      // if (!patientId) throw new Error("Paciente não definido");
+      // const response = await fetch("http://localhost:3000/chat", {
+      //   method: "POST",
+      //   headers: { "Content-Type": "application/json" },
+      //   body: JSON.stringify({
+      //     patientId,
+      //     message: mensagemUsuario,
+      //   }),
+      // });
+      // if (!response.ok) throw new Error("Erro na API de chat");
+      // const data = await response.json();
+      // setMensagens((prev) => [
+      //   ...prev,
+      //   { texto: data.response, deUsuario: false },
+      // ]);
     } catch (error) {
       console.error("Erro:", error);
       setMensagens((prev) => [
@@ -101,14 +99,14 @@ export default function Chat() {
 
   return (
     <div className="flex flex-col items-center justify-center h-screen p-4">
-      <div className="flex flex-col gap-2 w-full max-w-2xl h-[70%] overflow-y-auto p-4 rounded-2xl">
+      <div className="flex flex-col gap-2 w-full max-w-2xl h-full overflow-y-auto p-4 rounded-2xl">
         {mensagens.map((m, i) => (
           <div
             key={i}
             className={`px-3 py-2 rounded-xl text-sm max-w-[70%] break-words ${
               m.deUsuario
-                ? "bg-blue-500 text-white self-end rounded-tr-sm"
-                : "bg-gray-200 text-gray-800 self-start rounded-tl-sm"
+                ? "bg-teal-500 text-white self-end rounded-tr-sm"
+                : "bg-zinc-200 text-zinc-800 self-start rounded-tl-sm"
             }`}
           >
             {m.deUsuario ? (
@@ -120,13 +118,12 @@ export default function Chat() {
         ))}
         <div ref={chatEndRef} />
       </div>
-
-      <div className="flex gap-2 w-full max-w-2xl mt-4">
+      <div className="flex items-center gap-2 w-full max-w-2xl mx-4">
         <button
           onClick={abrirProntuario}
-          className="px-4 py-2 bg-green-500 text-white rounded-lg font-medium hover:bg-green-600 transition-colors"
+          className="p-2 text-teal-500 rounded-lg font-medium hover:bg-teal-100 transition-colors flex items-center justify-center cursor-pointer"
         >
-          Ver Prontuário
+          <FaPlus size={20} />
         </button>
 
         <input
@@ -135,13 +132,13 @@ export default function Chat() {
           value={input}
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && enviarMensagem()}
-          className="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+          className="flex-1 px-4 py-2 border border-zinc-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-700 focus:border-teal-700"
         />
         <button
           onClick={enviarMensagem}
-          className="px-4 py-2 bg-blue-500 text-white rounded-lg font-medium hover:bg-blue-600 transition-colors"
+          className="p-2 text-white bg-teal-700 rounded-lg hover:bg-teal-800 transition-colors flex items-center justify-center cursor-pointer"
         >
-          Enviar
+          <IoSend size={20} />
         </button>
       </div>
     </div>

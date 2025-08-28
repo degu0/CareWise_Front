@@ -13,13 +13,14 @@ export enum UserRole {
 }
 
 type UserType = {
+  id: string;       // ✅ agora incluído
   email: string;
   role: UserRole;
 };
 
 type AuthContextType = {
   user: UserType | null;
-  login: (userData: { email: string; role: UserRole; id: string }) => void;
+  login: (userData: UserType) => void;
   logout: () => void;
   isAuthenticated: boolean;
 };
@@ -37,18 +38,10 @@ export function AuthContextProvider({ children }: AuthProviderProps) {
 
   const isAuthenticated = !!user;
 
-  const login = useCallback(
-    (userData: { email: string; role: UserRole; id: string }) => {
-      const user = {
-        id: userData.id,
-        email: userData.email,
-        role: userData.role,
-      };
-      setUser(user);
-      localStorage.setItem("user", JSON.stringify(user));
-    },
-    []
-  );
+  const login = useCallback((userData: UserType) => {
+    setUser(userData);
+    localStorage.setItem("user", JSON.stringify(userData));
+  }, []);
 
   const logout = useCallback(() => {
     setUser(null);
