@@ -2,15 +2,15 @@
   "users": [
     {
       "id": "1",
-      "email": "admin@example.com",
-      "password": "admin123",
-      "role": "admin"
+      "email": "doctor@example.com",
+      "password": "123123",
+      "role": "doctor"
     },
     {
       "id": "2",
-      "email": "user@example.com",
-      "password": "user123",
-      "role": "user"
+      "email": "nurse@example.com",
+      "password": "nurse123",
+      "role": "nurse"
     }
   ],
   "patients": [

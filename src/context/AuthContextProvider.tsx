@@ -8,8 +8,8 @@ import {
 
 // eslint-disable-next-line react-refresh/only-export-components
 export enum UserRole {
-  ADMIN = "admin",
-  USER = "user",
+  DOCTOR = "doctor",
+  NURSE = "nurse",
 }
 
 type UserType = {

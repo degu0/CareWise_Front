@@ -50,12 +50,27 @@ export default function Login() {
       }
 
       login({
-        id: user.id,
+        id: user.id,  
         email: user.email,
         role: user.role as UserRole,
       });
+      const userLocal = { id: "1", role: "doctor", email: "doctor@example.com" };
+      localStorage.setItem("user", JSON.stringify(userLocal));
 
-      navigate(location.state?.from?.pathname || "/");
+      if (location.state?.from?.pathname) {
+        navigate(location.state.from.pathname, { replace: true });
+      } else {
+        switch (user.role) {
+          case UserRole.DOCTOR:
+            navigate("/medico", { replace: true });
+            break;
+          case UserRole.NURSE:
+            navigate("/enfermeira", { replace: true });
+            break;
+          default:
+            navigate("/", { replace: true });
+        }
+      }
     } catch (error) {
       console.error("Erro no login:", error);
       setError(error instanceof Error ? error.message : "Erro durante o login");
@@ -65,60 +80,70 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col justify-center items-center px-4 py-6 bg-white text-lg">
-      <form
-        onSubmit={handleLogin}
-        className="w-full max-w-md my-30 flex flex-col gap-3"
-      >
-        <h1 className="text-2xl font-bold text-center mb-6">Login</h1>
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-blue-50 via-white to-blue-50 px-4">
+      <div className="w-full max-w-md bg-white rounded-3xl shadow-xl p-8 md:p-10">
+        <h1 className="text-3xl font-extrabold text-center text-gray-800 mb-6">
+          Bem-vindo de volta!
+        </h1>
+        <p className="text-center text-gray-500 mb-8">
+          Faça login para acessar o painel de pacientes
+        </p>
 
-        <div className="flex flex-col gap-2">
-          <label htmlFor="email">Email</label>
-          <input
-            id="email"
-            type="email"
-            value={formData.email}
-            onChange={handleChange}
-            required
-            className="w-full mb-3 px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-amber-500"
-          />
-        </div>
+        <form className="flex flex-col gap-4" onSubmit={handleLogin}>
+          <div className="flex flex-col gap-1">
+            <label htmlFor="email" className="text-gray-700 font-medium">
+              Email
+            </label>
+            <input
+              id="email"
+              type="email"
+              value={formData.email}
+              onChange={handleChange}
+              required
+              className="w-full px-5 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
+            />
+          </div>
 
-        <div className="flex flex-col gap-2">
-          <label htmlFor="password">Senha</label>
-          <input
-            id="password"
-            type="password"
-            value={formData.password}
-            onChange={handleChange}
-            required
-            minLength={6}
-            className="w-full mb-3 px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-amber-500"
-          />
-        </div>
+          <div className="flex flex-col gap-1">
+            <label htmlFor="password" className="text-gray-700 font-medium">
+              Senha
+            </label>
+            <input
+              id="password"
+              type="password"
+              value={formData.password}
+              onChange={handleChange}
+              required
+              minLength={6}
+              className="w-full px-5 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-400 transition"
+            />
+          </div>
 
-        {error && (
-          <div className="p-3 text-red-700 bg-red-100 rounded-lg">{error}</div>
-        )}
+          {error && (
+            <div className="bg-red-100 text-red-700 p-3 rounded-xl text-center">
+              {error}
+            </div>
+          )}
 
-        <button
-          type="submit"
-          disabled={isLoading}
-          className="w-full h-11 bg-amber-600 text-white rounded-[100px] text-lg font-medium mb-2 hover:bg-amber-700 transition-colors disabled:opacity-70 disabled:cursor-not-allowed"
-        >
-          {isLoading ? "Carregando..." : "Login"}
-        </button>
+          <button
+            type="submit"
+            disabled={isLoading}
+            className="w-full py-3 mt-2 bg-blue-600 text-white font-semibold rounded-full text-lg hover:bg-blue-700 transition disabled:opacity-70 disabled:cursor-not-allowed"
+          >
+            {isLoading ? "Carregando..." : "Entrar"}
+          </button>
+        </form>
 
-        <p className="text-center text-base">
-          Ainda não possui uma conta?{" "}
+        <p className="text-center text-gray-500 mt-6">
+          Ainda não possui conta?{" "}
           <Link
             to="/register"
-            className="font-bold text-amber-600 hover:text-amber-700"
+            className="text-blue-600 font-semibold hover:text-blue-700 transition"
           >
             Cadastre-se
           </Link>
         </p>
-      </form>
+      </div>
     </div>
   );
 }

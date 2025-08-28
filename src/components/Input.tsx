@@ -17,19 +17,21 @@ export const Input = ({
 }: InputProps) => {
   return (
     <div className="flex flex-col gap-1 w-full">
-      <label htmlFor={name} className="font-medium">
-        {label} {required && <span className="text-red-500">*</span>}
+      <label htmlFor={name} className="font-medium text-gray-800">
+        {label}{" "}
+        {required && <span className="text-red-500">*</span>}
       </label>
       <input
         id={name}
         {...register(name)}
         {...rest}
-        className={`w-full p-2 border rounded-md ${
-          error ? "border-red-500" : "border-gray-300"
-        }`}
+        className={`w-full px-3 py-2 border rounded-md text-sm outline-none transition-colors 
+          ${error ? "border-red-500" : "border-gray-300 focus:border-blue-500"}`}
       />
       {error && (
-        <span className="text-red-500 text-sm">{error.message}</span>
+        <span className="text-red-500 text-xs mt-1">
+          {error.message}
+        </span>
       )}
     </div>
   );

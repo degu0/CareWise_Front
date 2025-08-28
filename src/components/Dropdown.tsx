@@ -41,7 +41,6 @@ export const DropdownSelect = ({
     }
   };
 
-  // Manipulação de teclado para acessibilidade
   const handleKeyDown = (e: React.KeyboardEvent, item: string) => {
     if (e.key === "Enter" || e.key === " ") {
       handleSelect(item);

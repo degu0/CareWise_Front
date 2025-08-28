@@ -1,68 +1,118 @@
+import { useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import {
+  FaHome,
+  FaUserFriends,
+  FaUserPlus,
+  FaChartPie,
+  FaSignOutAlt,
+} from "react-icons/fa";
 import logo from "../assets/logo_branca.png";
-import { useContext } from "react";
 import { AuthContext } from "../context/AuthContextProvider";
-
-import { FaHome } from "react-icons/fa";
-import { MdPeopleAlt, MdLogout } from "react-icons/md";
-import { RiDashboardFill } from "react-icons/ri";
 
 export const Menu = () => {
   const navigate = useNavigate();
   const { logout } = useContext(AuthContext);
+  const [collapsed, setCollapsed] = useState(false);
+
+  const userData = JSON.parse(localStorage.getItem("user") || "{}");
+  
 
   const handleLogout = () => {
-    navigate("/login");
     logout();
+    navigate("/login");
   };
 
   return (
-    <div className="w-64 h-full bg-gray-800 text-white flex flex-col">
-      <div className="flex items-center gap-4 p-4 border-b border-gray-700">
-        <img src={logo} alt="logo" className="w-10 h-10" />
-        <h1 className="text-xl font-bold">CareWise</h1>
+    <div
+      className={`h-screen bg-gray-900 text-white flex flex-col transition-all duration-300 ${
+        collapsed ? "w-22" : "w-64"
+      }`}
+    >
+      <div className="flex items-center justify-between p-4 border-b border-gray-700">
+        <button
+          onClick={() => setCollapsed(!collapsed)}
+          className="text-xl px-2 py-1 rounded hover:bg-gray-700"
+        >
+          <div className="flex items-center gap-3">
+            <img src={logo} alt="logo" className="w-10 h-10" />
+            {!collapsed && <h1 className="text-lg font-bold">CareWise</h1>}
+          </div>
+        </button>
       </div>
 
-      <div className="flex-1 overflow-y-auto">
-        <div className="space-y-2 p-4">
+      <div className="flex-1 flex flex-col gap-1 p-5">
+        {userData.role === "doctor" ? (
           <Link
-            to="/"
-            className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-700 transition-colors"
+            to="/medico"
+            className="flex items-center gap-3 p-4 rounded-lg hover:bg-gray-700 transition"
           >
-            <FaHome className="text-lg" />
-            <span>Home</span>
+            <FaHome />
+            {!collapsed && <span>Home Médico</span>}
           </Link>
+        ) : (
           <Link
-            to="/paciente/lista"
-            className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-700 transition-colors"
+            to="/enfermeira"
+            className="flex items-center gap-3 p-4 rounded-lg hover:bg-gray-700 transition"
           >
-            <MdPeopleAlt className="text-lg" />
-            <span>Lista de Pacientes</span>
+            <FaHome />
+            {!collapsed && <span>Home Enfermeira</span>}
           </Link>
+        )}
+
+        <Link
+          to="/paciente/lista"
+          className="flex items-center gap-3 p-4 rounded-lg hover:bg-gray-700 transition"
+        >
+          <FaUserFriends />
+          {!collapsed && <span>Lista de Pacientes</span>}
+        </Link>
+
+        {userData.role === "nurse" && (
           <Link
             to="/paciente/cadastro"
-            className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-700 transition-colors"
+            className="flex items-center gap-3 p-4 rounded-lg hover:bg-gray-700 transition"
           >
-            <MdPeopleAlt className="text-lg" />
-            <span>Cadastrar paciente</span>
+            <FaUserPlus />
+            {!collapsed && <span>Cadastrar Paciente</span>}
           </Link>
-          <Link
-            to="/dashboard"
-            className="flex items-center gap-3 p-3 rounded-lg hover:bg-gray-700 transition-colors"
-          >
-            <RiDashboardFill className="text-lg" />
-            <span>Dashboard</span>
-          </Link>
-        </div>
+        )}
+
+        {userData.role === "doctor" && (
+          <>
+            <Link
+              to="/prontuario/1"
+              className="flex items-center gap-3 p-4 rounded-lg hover:bg-gray-700 transition"
+            >
+              <FaUserPlus />
+              {!collapsed && <span>Prontuário</span>}
+            </Link>
+            <Link
+              to="/chat"
+              className="flex items-center gap-3 p-4 rounded-lg hover:bg-gray-700 transition"
+            >
+              <FaChartPie />
+              {!collapsed && <span>Chat</span>}
+            </Link>
+          </>
+        )}
+
+        <Link
+          to="/dashboard"
+          className="flex items-center gap-3 p-4 rounded-lg hover:bg-gray-700 transition"
+        >
+          <FaChartPie />
+          {!collapsed && <span>Dashboard</span>}
+        </Link>
       </div>
 
-      <div className="p-4 border-t border-gray-700">
+      <div className="border-t border-gray-700 p-6">
         <button
           onClick={handleLogout}
-          className="w-full flex items-center justify-start gap-3 p-3 rounded-lg hover:bg-red-600 transition-colors cursor-pointer"
+          className="flex items-center gap-3 w-full p-3 rounded-lg hover:bg-red-600 transition"
         >
-          <MdLogout className="text-lg" />
-          <span>Sair</span>
+          <FaSignOutAlt />
+          {!collapsed && <span>Sair</span>}
         </button>
       </div>
     </div>

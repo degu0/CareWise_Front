@@ -1,5 +1,6 @@
 import { Route, Routes } from "react-router-dom";
-import Home from "../pages/Home";
+import HomeDoctor from "../pages/Home/Doctor";
+import HomeNurse from "../pages/Home/Nurse";
 import Login from "../pages/Login";
 import RegisterLogin from "../pages/RegisterLogin";
 import PatientList from "../pages/Patient/List";
@@ -9,21 +10,49 @@ import Dashboard from "../pages/Dashboard";
 import MedicalRecords from "../pages/MedicalRecords";
 import { MainLayout } from "../layout/MainLayout";
 import SearchResult from "../pages/SearchResults";
+import Chat from "../pages/Carol";
+import { PrivateRoute } from "./PrivateRoute";
+import { UserRole } from "../context/AuthContextProvider";
 
 export function AppRouter() {
   return (
     <Routes>
       <Route path="/" element={<MainLayout />}>
-        <Route index element={<Home />} />
-        <Route path="/paciente/:id" element={<Patient />} />
-        <Route path="/paciente/lista" element={<PatientList />} />
-        <Route path="/paciente/cadastro" element={<PatientRegister />} />
+        <Route path="/medico" element={<HomeDoctor />} />
+        <Route path="/enfermeira" element={<HomeNurse />} />
+        <Route path="/paciente">
+          <Route path=":id" element={<Patient />} />
+          <Route path="lista" element={<PatientList />} />
+          <Route
+            path="cadastro"
+            element={
+              <PrivateRoute allowedRoles={[UserRole.NURSE]}>
+                <PatientRegister />
+              </PrivateRoute>
+            }
+          />
+        </Route>
         <Route path="/pesquisa/:value" element={<SearchResult />} />
+        <Route
+          path="/chat"
+          element={
+            <PrivateRoute allowedRoles={[UserRole.DOCTOR]}>
+              <Chat />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/prontuario/:id"
+          element={
+            <PrivateRoute allowedRoles={[UserRole.DOCTOR]}>
+              <MedicalRecords />
+            </PrivateRoute>
+          }
+        />
         <Route path="/dashboard" element={<Dashboard />} />
       </Route>
       <Route path="/login" element={<Login />} />
       <Route path="/cadastro" element={<RegisterLogin />} />
-      <Route path="/prontuario/:id" element={<MedicalRecords />} />
     </Routes>
   );
 }
