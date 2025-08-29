@@ -206,7 +206,7 @@ export default function PatientList() {
                   {parsedUser?.role === "nurse" ? (
                     <td
                       className="px-10 py-4 flex justify-center items-center text-teal-500"
-                      onClick={() => handleRegisterInQueue(p.id)}
+                      onClick={(e) => { e.stopPropagation(); handleRegisterInQueue(p.id);}}
                     >
                       <FaCheck title="Adicionar paciente à fila de espera" />
                     </td>

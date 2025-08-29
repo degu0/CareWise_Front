@@ -117,7 +117,10 @@ export default function HomeDoctor() {
                 </div>
                 <div
                   className="mr-5 text-teal-600 cursor-pointer"
-                  onClick={() => updatePatientStatus(patient.id)}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    updatePatientStatus(patient.id);
+                  }}
                 >
                   <FaCheck />
                 </div>
