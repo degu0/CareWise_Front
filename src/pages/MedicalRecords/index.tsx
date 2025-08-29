@@ -123,7 +123,7 @@ export default function MedicalRecords() {
   }
 
   return (
-    <main className="max-w-3xl mx-auto p-6 space-y-6 h-screen">
+    <main className="max-w-3xl mx-auto p-6 space-y-6 min-h-screen">
       {patient ? (
         <section className="bg-white rounded-2xl shadow-md border border-zinc-200 p-6">
           <h1 className="text-2xl font-semibold text-zinc-900 mb-4">

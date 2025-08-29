@@ -8,11 +8,14 @@ interface DrawerProps {
 
 type NotificationsProps = {
   id: string;
-  patients: string;
-  context: string;
+  patientId: string;
   message: string;
-  status: string;
-  dataOfMesage: string;
+  isReviewedByDoctor: boolean;
+  isApprovedByDoctor: boolean;
+  createdAt: string;
+  patient: {
+    name: string;
+  };
 };
 
 export const Drawer: React.FC<DrawerProps> = ({ isOpen, onClose }) => {
@@ -22,15 +25,18 @@ export const Drawer: React.FC<DrawerProps> = ({ isOpen, onClose }) => {
   const [selectedNotification, setSelectedNotification] =
     useState<NotificationsProps | null>(null);
 
+  // Buscar todas notificações
   useEffect(() => {
     async function fetchNotifications() {
       try {
         const response = await fetch(`${API_URL}/notifications`);
         const data: NotificationsProps[] = await response.json();
-        console.log(data);
-        if (Array.isArray(data)) {
-          setNotifications(data);
-        }
+        if (Array.isArray(data)){
+          const unreadNotifications = data.filter(
+            (notification) => !notification.isReviewedByDoctor
+          );
+          setNotifications(unreadNotifications);
+        };
       } catch (error) {
         console.log("Erro na busca de dados", error);
       }
@@ -44,8 +50,53 @@ export const Drawer: React.FC<DrawerProps> = ({ isOpen, onClose }) => {
     onClose();
   };
 
+  // Buscar notificação individual e marcar como revisada
+  const handleSelectNotification = async (id: string) => {
+    try {
+      const response = await fetch(`${API_URL}/notifications?id=${id}`);
+      const data: NotificationsProps = await response.json();
+
+      // Atualizar no backend como revisado
+      await fetch(`${API_URL}/notifications?id=${id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ isReviewedByDoctor: true }),
+      });
+
+      // Atualizar no front
+      setSelectedNotification({ ...data, isReviewedByDoctor: true });
+      setDrawerStep("details");
+    } catch (error) {
+      console.error("Erro ao buscar notificação", error);
+    }
+  };
+
+  // Atualizar como aprovado (quando enviar ou deletar)
+  const handleApproveNotification = async (id: string) => {
+    try {
+      await fetch(`${API_URL}/notifications?id=${id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ isApprovedByDoctor: true }),
+      });
+
+      // Atualizar estado local
+      setNotifications((prev) =>
+        prev.map((n) =>
+          n.id === id ? { ...n, isApprovedByDoctor: true } : n
+        )
+      );
+
+      setDrawerStep("main");
+      setSelectedNotification(null);
+    } catch (error) {
+      console.error("Erro ao aprovar notificação", error);
+    }
+  };
+
   return (
     <>
+      {/* Overlay */}
       <div
         className={`fixed inset-0 bg-black/50 transition-opacity ${
           isOpen
@@ -54,6 +105,8 @@ export const Drawer: React.FC<DrawerProps> = ({ isOpen, onClose }) => {
         }`}
         onClick={closeDrawer}
       />
+
+      {/* Drawer */}
       <div
         className={`fixed top-0 right-0 h-full w-96 bg-white shadow-2xl rounded-l-lg transform transition-transform duration-300 ${
           isOpen ? "translate-x-0" : "translate-x-full"
@@ -61,9 +114,7 @@ export const Drawer: React.FC<DrawerProps> = ({ isOpen, onClose }) => {
       >
         <div className="flex justify-between items-center p-4 border-b border-zinc-200">
           <h2 className="text-lg font-semibold text-zinc-800">
-            {drawerStep === "main"
-              ? "Notificações"
-              : "Detalhes da Notificação"}
+            {drawerStep === "main" ? "Notificações" : "Detalhes da Notificação"}
           </h2>
           <button
             onClick={closeDrawer}
@@ -83,13 +134,13 @@ export const Drawer: React.FC<DrawerProps> = ({ isOpen, onClose }) => {
                   <div
                     key={notification.id}
                     className="p-3 border rounded-lg hover:bg-green-50 cursor-pointer transition-colors shadow-sm"
-                    onClick={() => {
-                      setSelectedNotification(notification);
-                      setDrawerStep("details");
-                    }}
+                    onClick={() => handleSelectNotification(notification.id)}
                   >
                     <p className="text-zinc-800 font-medium">
-                      Nova mensagem sobre <span className="font-semibold">{notification.patients}</span>
+                      Nova mensagem sobre{" "}
+                      <span className="font-semibold">
+                        {notification.patient?.name}
+                      </span>
                     </p>
                     <p className="text-zinc-500 text-sm truncate">
                       {notification.message}
@@ -104,38 +155,36 @@ export const Drawer: React.FC<DrawerProps> = ({ isOpen, onClose }) => {
             <div className="flex flex-col gap-3">
               <div className="space-y-1 text-zinc-600">
                 <p>
-                  <strong>Paciente:</strong> {selectedNotification.patients}
+                  <strong>Paciente:</strong>{" "}
+                  {selectedNotification.patient?.name}
                 </p>
                 <p>
                   <strong>Mensagem:</strong> {selectedNotification.message}
                 </p>
                 <p>
-                  <strong>Contexto:</strong> {selectedNotification.context}
+                  <strong>Revisado pelo médico:</strong>{" "}
+                  {selectedNotification.isReviewedByDoctor ? "Sim" : "Não"}
                 </p>
                 <p>
-                  <strong>Status:</strong> {selectedNotification.status}
+                  <strong>Aprovado pelo médico:</strong>{" "}
+                  {selectedNotification.isApprovedByDoctor ? "Sim" : "Não"}
                 </p>
                 <p>
-                  <strong>Data:</strong> {selectedNotification.dataOfMesage}
+                  <strong>Data:</strong>{" "}
+                  {new Date(selectedNotification.createdAt).toLocaleString()}
                 </p>
               </div>
 
               <div className="flex justify-end gap-3 mt-4">
                 <button
-                  onClick={() => {
-                    setDrawerStep("main");
-                    setSelectedNotification(null);
-                  }}
-                  className="px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition"
+                  onClick={() => handleApproveNotification(selectedNotification.id)}
+                  className="px-4 py-2 bg-teal-600 text-white rounded-lg hover:bg-teal-700 transition cursor-pointer"
                 >
                   Enviar
                 </button>
                 <button
-                  onClick={() => {
-                    setDrawerStep("main");
-                    setSelectedNotification(null);
-                  }}
-                  className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition"
+                  onClick={() => handleApproveNotification(selectedNotification.id)}
+                  className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition cursor-pointer"
                 >
                   Deletar
                 </button>
@@ -147,4 +196,3 @@ export const Drawer: React.FC<DrawerProps> = ({ isOpen, onClose }) => {
     </>
   );
 };
-

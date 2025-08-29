@@ -86,7 +86,7 @@ export default function HomeNurse() {
       <h1 className="text-center font-bold text-3xl md:text-4xl text-zinc-800">
         Olá, Enfermeiro Deyvid
       </h1>
-      <div className="flex justify-between">
+      <div className="flex justify-between gap-15">
         <Card
           width="120"
           height="100"

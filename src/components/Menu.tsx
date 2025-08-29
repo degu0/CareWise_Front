@@ -28,7 +28,10 @@ export const Menu = () => {
         const data = await response.json();
 
         if (Array.isArray(data)) {
-          setLengthNotifications(data.length);
+          const unreadNotifications = data.filter(
+            (notification) => !notification.isReviewedByDoctor
+          );
+          setLengthNotifications(unreadNotifications.length);
         }
       } catch (error) {
         console.log("Erro na busca de dados", error);
@@ -89,26 +92,7 @@ export const Menu = () => {
           <FaUserFriends />
           {!collapsed && <span>Lista de Pacientes</span>}
         </Link>
-
-        {userData.role === "doctor" && (
-          <>
-            <Link
-              to="/prontuario/1"
-              className="flex items-center gap-3 p-4 rounded-lg hover:bg-green-700 transition cursor-pointer"
-            >
-              <FaUserPlus />
-              {!collapsed && <span>Prontuário</span>}
-            </Link>
-            <Link
-              to="/chat"
-              className="flex items-center gap-3 p-4 rounded-lg hover:bg-green-700 transition cursor-pointer"
-            >
-              <RiRobot3Fill  />
-              {!collapsed && <span>Chat</span>}
-            </Link>
-          </>
-        )}
-
+        
         <Link
           to="/dashboard"
           className="flex items-center gap-3 p-4 rounded-lg hover:bg-green-700 transition cursor-pointer"

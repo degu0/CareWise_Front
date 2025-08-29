@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { Card } from "../../../components/Card";
 import { useNavigate } from "react-router-dom";
-import { Toast } from "../../../components/Toast";
 import { FaCheck } from "react-icons/fa";
 
 type PatientsType = {
@@ -14,12 +13,6 @@ export default function HomeDoctor() {
   const API_URL = import.meta.env.VITE_API_URL;
   const [patients, setPatients] = useState<PatientsType[]>([]);
   const navigate = useNavigate();
-  const [showToast, setShowToast] = useState(false);
-
-  const handleShowToast = () => {
-    setShowToast(true);
-    setTimeout(() => setShowToast(false), 3000);
-  };
 
   useEffect(() => {
     async function fetchPatients() {
@@ -99,17 +92,7 @@ export default function HomeDoctor() {
       <h1 className="text-center font-bold text-3xl md:text-4xl text-zinc-800">
         Olá, Dr. Deyvid
       </h1>
-      <div className="p-6">
-        <button
-          onClick={handleShowToast}
-          className="bg-teal-600 text-white px-4 py-2 rounded hover:bg-teal-700"
-        >
-          Mostrar Toast
-        </button>
-
-        {showToast && <Toast message="Nova mensagem chegou!" />}
-      </div>
-      <div className="flex justify-between">
+      <div className="flex justify-between gap-15">
         <Card
           width="120"
           height="100"
@@ -120,34 +103,32 @@ export default function HomeDoctor() {
           </h2>
           <div className="flex flex-col gap-3 max-h-96 overflow-y-auto">
             {patients.map((patient) => (
-              <>
-                <div
-                  key={patient.id}
-                  className="flex items-center justify-between p-3 border-b border-zinc-200 hover:bg-zinc-50 transition-colors rounded cursor-pointer"
-                  onClick={() => handleNavigateChat(patient.id, patient.name)}
-                >
-                  <div>
-                    {" "}
-                    <p className="font-medium text-zinc-800">{patient.name}</p>
-                    <p className="text-sm text-zinc-500">
-                      {ageCalculate(patient.yearOfBirth)} anos
-                    </p>
-                  </div>
-                  <div
-                    className="mr-5 text-teal-600 cursor-pointer"
-                    onClick={() => updatePatientStatus(patient.id)}
-                  >
-                    <FaCheck />
-                  </div>
+              <div
+                key={patient.id}
+                className="flex items-center justify-between p-3 border-b border-zinc-200 hover:bg-zinc-50 transition-colors rounded cursor-pointer"
+                onClick={() => handleNavigateChat(patient.id, patient.name)}
+              >
+                <div>
+                  {" "}
+                  <p className="font-medium text-zinc-800">{patient.name}</p>
+                  <p className="text-sm text-zinc-500">
+                    {ageCalculate(patient.yearOfBirth)} anos
+                  </p>
                 </div>
-              </>
+                <div
+                  className="mr-5 text-teal-600 cursor-pointer"
+                  onClick={() => updatePatientStatus(patient.id)}
+                >
+                  <FaCheck />
+                </div>
+              </div>
             ))}
           </div>
         </Card>
 
         <div className="flex flex-col gap-6">
           <Card
-            width="100"
+            width="0"
             className="p-10 bg-teal-50 shadow-lg rounded-lg flex flex-col justify-around"
           >
             <h3 className="text-zinc-700 font-semibold">
@@ -161,7 +142,9 @@ export default function HomeDoctor() {
             width="100"
             className="p-10 bg-green-50 shadow-lg rounded-lg flex flex-col justify-around"
           >
-            <h3 className="text-zinc-700 font-semibold">Total de pacientes atendidos</h3>
+            <h3 className="text-zinc-700 font-semibold">
+              Total de pacientes atendidos
+            </h3>
             <span className="text-7xl font-bold mt-2 text-green-700">
               {patients.length - 2}
             </span>

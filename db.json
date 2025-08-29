@@ -188,11 +188,36 @@
   "notifications": [
     {
       "id": "1",
-      "patients": "Maria Clara",
-      "context": "Context of mesage",
-      "message": "Mesage para paciente",
-      "status": "off",
-      "dataOfMesage": "12/12/2012"
+      "patientId": "101",
+      "message": "Paciente apresentou febre alta e tosse persistente.",
+      "isReviewedByDoctor": false,
+      "isApprovedByDoctor": false,
+      "createdAt": "2025-08-29T14:00:00Z",
+      "patient": {
+        "name": "João Silva"
+      }
+    },
+    {
+      "id": "2",
+      "patientId": "102",
+      "message": "Paciente relatou dor de cabeça intensa nas últimas 24 horas.",
+      "isReviewedByDoctor": true,
+      "isApprovedByDoctor": false,
+      "createdAt": "2025-08-28T10:30:00Z",
+      "patient": {
+        "name": "Maria Oliveira"
+      }
+    },
+    {
+      "id": "3",
+      "patientId": "103",
+      "message": "Resultado de exame de sangue disponível para revisão.",
+      "isReviewedByDoctor": false,
+      "isApprovedByDoctor": false,
+      "createdAt": "2025-08-29T09:45:00Z",
+      "patient": {
+        "name": "Carlos Pereira"
+      }
     }
   ],
   "data": [

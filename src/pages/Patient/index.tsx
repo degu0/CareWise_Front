@@ -7,7 +7,6 @@ type PatientsType = {
   yearOfBirth: string;
   gender: string;
   cpf: string;
-  unimedCard: string;
   address: string;
   phone: string;
   city: string;

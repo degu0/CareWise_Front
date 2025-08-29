@@ -5,7 +5,6 @@ import { SearchInput } from "../../components/SearchInput";
 import { FaCheck } from "react-icons/fa";
 
 type PatientsType = {
-  disease: any;
   id: string;
   name: string;
   yearOfBirth: string;
@@ -86,15 +85,12 @@ export default function PatientList() {
           })()
         : true;
 
-      const matchDisease = newFilters.disease
-        ? p.disease === newFilters.disease
-        : true;
 
       const matchQuery = newFilters.query
         ? p.name.toLowerCase().includes(newFilters.query.toLowerCase())
         : true;
 
-      return matchGender && matchAge && matchDisease && matchQuery;
+      return matchGender && matchAge && matchQuery;
     });
 
     setFilteredPatients(filtered);
