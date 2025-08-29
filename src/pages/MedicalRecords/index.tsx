@@ -41,7 +41,7 @@ export default function MedicalRecords() {
       }
     }
     fetchPatients();
-  }, [id]);
+  }, [API_URL, id]);
 
   const [mostrarSintomas, setMostrarSintomas] = useState(false);
   const [mostrarExames, setMostrarExames] = useState(false);

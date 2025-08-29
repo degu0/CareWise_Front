@@ -1,12 +1,10 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 export default function FormPatient() {
   const API_URL = import.meta.env.VITE_API_URL;
   const navigate = useNavigate();
-
-  const patient = JSON.parse(localStorage.getItem("patientRegister") || "{}");
-
+  const {id} = useParams()
   const [complaint, setComplaint] = useState("");
 
   const onSubmit = async (e: React.FormEvent) => {
@@ -14,7 +12,7 @@ export default function FormPatient() {
 
     try {
       const payload = {
-        patientId: patient.id,
+        patientId: id,
         complaint,
       };
 

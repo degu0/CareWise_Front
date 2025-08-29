@@ -3,11 +3,9 @@ import { Link, useNavigate } from "react-router-dom";
 import {
   FaHome,
   FaUserFriends,
-  FaUserPlus,
   FaChartPie,
   FaSignOutAlt,
 } from "react-icons/fa";
-import { RiRobot3Fill } from "react-icons/ri";
 import { IoNotifications } from "react-icons/io5";
 import logo from "../assets/logo_branca.png";
 import { AuthContext } from "../context/AuthContextProvider";
@@ -39,7 +37,7 @@ export const Menu = () => {
     }
 
     fetchNotifications();
-  }, []);
+  }, [API_URL]);
 
   const userData = JSON.parse(localStorage.getItem("user") || "{}");
 
@@ -92,7 +90,7 @@ export const Menu = () => {
           <FaUserFriends />
           {!collapsed && <span>Lista de Pacientes</span>}
         </Link>
-        
+
         <Link
           to="/dashboard"
           className="flex items-center gap-3 p-4 rounded-lg hover:bg-green-700 transition cursor-pointer"

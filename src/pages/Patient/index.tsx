@@ -30,7 +30,6 @@ export default function Patient() {
     yearOfBirth: "",
     gender: "",
     cpf: "",
-    unimedCard: "",
     address: "",
     phone: "",
     city: "",

@@ -2,7 +2,6 @@ import { Route, Routes } from "react-router-dom";
 import HomeDoctor from "../pages/Home/Doctor";
 import HomeNurse from "../pages/Home/Nurse";
 import Login from "../pages/Login";
-import RegisterLogin from "../pages/RegisterLogin";
 import PatientList from "../pages/Patient/List";
 import PatientRegister from "../pages/Patient/Register";
 import Patient from "../pages/Patient";
@@ -32,7 +31,7 @@ export function AppRouter() {
               </PrivateRoute>
             }
           />
-          <Route path="formulario" element={<FormPatient />} />
+          <Route path="formulario/:id" element={<FormPatient />} />
         </Route>
         <Route path="/pesquisa/:value" element={<SearchResult />} />
         <Route path="/chat" element={<Chat />} />
@@ -47,7 +46,6 @@ export function AppRouter() {
         <Route path="/dashboard" element={<Dashboard />} />
       </Route>
       <Route path="/login" element={<Login />} />
-      <Route path="/cadastro" element={<RegisterLogin />} />
     </Routes>
   );
 }

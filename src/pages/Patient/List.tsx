@@ -40,7 +40,7 @@ export default function PatientList() {
       }
     }
     fetchPatients();
-  }, []);
+  }, [API_URL]);
 
   const ageCalculate = (yearOfBirth: string) => {
     const today = new Date();
@@ -101,6 +101,7 @@ export default function PatientList() {
   const handleRegisterInQueue = (id: string) => {
     alert(`Voce adicionou ${id} para fila de espera`);
 
+
     // async function fetchRegisterPatientInQueue() {
     //   try {
     //     const response = await fetch(`${API_URL}/patients/${id}`, {
@@ -124,6 +125,7 @@ export default function PatientList() {
     //     );
 
     //     alert(`Você adicionou ${updatedPatient.name} para a fila de espera`);
+    //     navigate(`/paciente/formulario/${id}`)
     //   } catch (error) {
     //     console.error("Erro ao registrar paciente na fila:", error);
     //     alert("Erro ao registrar paciente na fila");

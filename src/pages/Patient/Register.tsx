@@ -79,7 +79,7 @@ export default function PatientRegister() {
 
       if (!response.ok) throw new Error("Erro ao registrar paciente");
 
-      navigate("/formulario");
+      navigate("/paciente/lista");
     } catch (error) {
       console.error("Erro ao registrar paciente:", error);
     }
