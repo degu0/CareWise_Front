@@ -4,7 +4,7 @@ import { z } from "zod";
 import { Input } from "../../components/Input";
 import { useNavigate } from "react-router-dom";
 
-// Schema Zod atualizado para todos os campos
+// Schema Zod atualizado com peso e altura
 export const patientSchema = z.object({
   name: z.string().min(2, "Nome obrigatório"),
   email: z.string().email("Email inválido"),
@@ -15,6 +15,8 @@ export const patientSchema = z.object({
   cpf: z.string().min(11, "CPF obrigatório"),
   yearOfBirth: z.string().min(4, "Ano de nascimento obrigatório"),
   gender: z.enum(["Masculino", "Feminino", "Outro"], "Selecione o sexo"),
+  weight: z.string().min(1, "Peso obrigatório"),   // Novo campo
+  height: z.string().min(1, "Altura obrigatória"), // Novo campo
 });
 
 export type PatientFormData = z.infer<typeof patientSchema>;
@@ -49,7 +51,6 @@ export default function PatientRegister() {
     register,
     handleSubmit,
     formState: { errors },
-    reset,
     setValue,
   } = useForm<PatientFormData>({
     resolver: zodResolver(patientSchema),
@@ -65,6 +66,8 @@ export default function PatientRegister() {
         ...data,
         phone: data.phone.replace(/\D/g, ""),
         cpf: data.cpf.replace(/\D/g, ""),
+        weight: Number(data.weight),
+        height: Number(data.height),
         age,
       };
 
@@ -76,9 +79,6 @@ export default function PatientRegister() {
 
       if (!response.ok) throw new Error("Erro ao registrar paciente");
 
-      const result = await response.json();
-      localStorage.setItem("patientRegister", JSON.stringify(result))
-      reset();
       navigate("/formulario");
     } catch (error) {
       console.error("Erro ao registrar paciente:", error);
@@ -210,6 +210,26 @@ export default function PatientRegister() {
             name="city"
             register={register}
             error={errors.city}
+            required
+          />
+        </div>
+
+        {/* Peso e Altura */}
+        <div className="flex gap-5">
+          <Input
+            label="Peso (kg)"
+            name="weight"
+            type="number"
+            register={register}
+            error={errors.weight}
+            required
+          />
+          <Input
+            label="Altura (cm)"
+            name="height"
+            type="number"
+            register={register}
+            error={errors.height}
             required
           />
         </div>

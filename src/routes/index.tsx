@@ -5,7 +5,7 @@ import Login from "../pages/Login";
 import RegisterLogin from "../pages/RegisterLogin";
 import PatientList from "../pages/Patient/List";
 import PatientRegister from "../pages/Patient/Register";
-import Patient from "../pages/Patient/Form";
+import Patient from "../pages/Patient";
 import Dashboard from "../pages/Dashboard";
 import MedicalRecords from "../pages/MedicalRecords";
 import { MainLayout } from "../layout/MainLayout";

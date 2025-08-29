@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { FaPlus } from "react-icons/fa";
 import { IoClose } from "react-icons/io5";
 import { useParams } from "react-router-dom";
@@ -53,7 +53,12 @@ export default function MedicalRecords() {
   const [resultadoExame, setResultadoExame] = useState("");
   const [exames, setExames] = useState<ExameItem[]>([]);
 
-  // Salvar
+  // Campos para prontuário
+  const [initialComplaint, setInitialComplaint] = useState("");
+  const [finalDiagnosis, setFinalDiagnosis] = useState("");
+  const [notes, setNotes] = useState("");
+
+  // Salvar sintomas
   function salvarSintoma() {
     if (!novoSintoma.trim()) return;
     setSintomas((prev) => [
@@ -64,6 +69,7 @@ export default function MedicalRecords() {
     setMostrarSintomas(false);
   }
 
+  // Salvar exames
   function salvarExame() {
     if (!nomeExame.trim() && !resultadoExame.trim()) return;
     setExames((prev) => [
@@ -83,9 +89,37 @@ export default function MedicalRecords() {
   function removerSintoma(id: string) {
     setSintomas((prev) => prev.filter((s) => s.id !== id));
   }
-
   function removerExame(id: string) {
     setExames((prev) => prev.filter((e) => e.id !== id));
+  }
+
+  // POST prontuário
+  async function salvarProntuario() {
+    if (!patient) return;
+
+    try {
+      const response = await fetch(`${API_URL}/prontuarios`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          patientId: patient.id,
+          initialComplaint,
+          finalDiagnosis,
+          notes,
+          sintomas: sintomas.map((s) => ({ descricao: s.descricao })),
+          exames: exames.map((e) => ({ nome: e.nome, resultado: e.resultado })),
+        }),
+      });
+
+      if (!response.ok) throw new Error("Erro ao salvar prontuário");
+
+      const data = await response.json();
+      console.log("Prontuário salvo:", data);
+      alert("Prontuário salvo com sucesso!");
+    } catch (error) {
+      console.error(error);
+      alert("Erro ao salvar prontuário");
+    }
   }
 
   return (
@@ -96,20 +130,36 @@ export default function MedicalRecords() {
             {patient.name}
           </h1>
           <div className="grid grid-cols-2 gap-4 text-zinc-600 text-sm">
-            <p>
-              <span className="font-medium">Idade:</span> {patient.yearOfBirth}
-            </p>
-            <p>
-              <span className="font-medium">Sexo:</span> {patient.gender}
-            </p>
-            <p>
-              <span className="font-medium">CPF:</span> {patient.cpf}
-            </p>
+            <p><span className="font-medium">Idade:</span> {patient.yearOfBirth}</p>
+            <p><span className="font-medium">Sexo:</span> {patient.gender}</p>
+            <p><span className="font-medium">CPF:</span> {patient.cpf}</p>
           </div>
         </section>
       ) : (
         <p className="text-center text-zinc-500">Carregando paciente...</p>
       )}
+
+      {/* Campos principais do prontuário */}
+      <section className="bg-white rounded-2xl shadow-md border border-zinc-200 p-6 space-y-4">
+        <textarea
+          placeholder="Queixa inicial..."
+          value={initialComplaint}
+          onChange={(e) => setInitialComplaint(e.target.value)}
+          className="w-full border border-zinc-300 rounded-lg px-3 py-2"
+        />
+        <textarea
+          placeholder="Diagnóstico final..."
+          value={finalDiagnosis}
+          onChange={(e) => setFinalDiagnosis(e.target.value)}
+          className="w-full border border-zinc-300 rounded-lg px-3 py-2"
+        />
+        <textarea
+          placeholder="Observações..."
+          value={notes}
+          onChange={(e) => setNotes(e.target.value)}
+          className="w-full border border-zinc-300 rounded-lg px-3 py-2"
+        />
+      </section>
 
       {/* SINTOMAS */}
       <section className="bg-white rounded-2xl shadow-md border border-zinc-200 p-6">
@@ -161,6 +211,7 @@ export default function MedicalRecords() {
         )}
       </section>
 
+      {/* EXAMES */}
       <section className="bg-white rounded-2xl shadow-md border border-zinc-200 p-6">
         <div className="flex justify-between items-center mb-4">
           <h3 className="text-lg font-semibold text-zinc-900">Exames</h3>
@@ -219,6 +270,17 @@ export default function MedicalRecords() {
             ))}
           </ul>
         )}
+      </section>
+
+      {/* Botão final de salvar prontuário */}
+      <section className="flex justify-end">
+        <button
+          type="button"
+          onClick={salvarProntuario}
+          className="bg-teal-600 text-white px-6 py-2 rounded-lg hover:bg-teal-700 transition cursor-pointer"
+        >
+          Salvar Prontuário
+        </button>
       </section>
     </main>
   );

@@ -15,6 +15,7 @@ type PatientsType = {
 };
 
 export default function Patient() {
+    const API_URL = import.meta.env.VITE_API_URL;
   const { id } = useParams();
   const [patients, setPatients] = useState<PatientsType>({
     id: "",
@@ -32,7 +33,7 @@ export default function Patient() {
   useEffect(() => {
     async function fetchPatients() {
       try {
-        const response = await fetch(`http://localhost:3000/patients?id=${id}`);
+        const response = await fetch(`${API_URL}/patients?id=${id}`);
         if (!response.ok) throw new Error("Resposta inválida da API");
         const data: PatientsType[] = await response.json();
         setPatients(data[0]);
