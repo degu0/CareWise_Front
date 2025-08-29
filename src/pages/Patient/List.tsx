@@ -85,7 +85,6 @@ export default function PatientList() {
           })()
         : true;
 
-
       const matchQuery = newFilters.query
         ? p.name.toLowerCase().includes(newFilters.query.toLowerCase())
         : true;
@@ -100,7 +99,6 @@ export default function PatientList() {
 
   const handleRegisterInQueue = (id: string) => {
     alert(`Voce adicionou ${id} para fila de espera`);
-
 
     // async function fetchRegisterPatientInQueue() {
     //   try {
@@ -206,7 +204,10 @@ export default function PatientList() {
                   {parsedUser?.role === "nurse" ? (
                     <td
                       className="px-10 py-4 flex justify-center items-center text-teal-500"
-                      onClick={(e) => { e.stopPropagation(); handleRegisterInQueue(p.id);}}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleRegisterInQueue(p.id);
+                      }}
                     >
                       <FaCheck title="Adicionar paciente à fila de espera" />
                     </td>
