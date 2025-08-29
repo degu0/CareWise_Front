@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { FaPlus } from "react-icons/fa";
 import { IoSend } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
+import MarkdownText from "../../components/MarkdownText";
 
 interface Mensagem {
   texto: string;
@@ -37,7 +38,7 @@ function MaquinaDeEscrever({ text }: MaquinaDeEscreverProps) {
     escreverNaTela(text);
   }, [text]);
 
-  return <p>{displayText}</p>;
+  return <MarkdownText>{displayText}</MarkdownText>;
 }
 
 export default function Chat() {
