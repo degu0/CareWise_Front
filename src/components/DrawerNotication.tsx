@@ -16,6 +16,7 @@ type NotificationsProps = {
 };
 
 export const Drawer: React.FC<DrawerProps> = ({ isOpen, onClose }) => {
+  const API_URL = import.meta.env.VITE_API_URL;
   const [drawerStep, setDrawerStep] = useState<"main" | "details">("main");
   const [notifications, setNotifications] = useState<NotificationsProps[]>([]);
   const [selectedNotification, setSelectedNotification] =
@@ -24,8 +25,9 @@ export const Drawer: React.FC<DrawerProps> = ({ isOpen, onClose }) => {
   useEffect(() => {
     async function fetchNotifications() {
       try {
-        const response = await fetch("http://localhost:3000/notifications");
+        const response = await fetch(`${API_URL}/notifications`);
         const data: NotificationsProps[] = await response.json();
+        console.log(data);
         if (Array.isArray(data)) {
           setNotifications(data);
         }
@@ -34,7 +36,7 @@ export const Drawer: React.FC<DrawerProps> = ({ isOpen, onClose }) => {
       }
     }
     fetchNotifications();
-  }, []);
+  }, [API_URL]);
 
   const closeDrawer = () => {
     setDrawerStep("main");

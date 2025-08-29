@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Card } from "../../../components/Card";
 import { useNavigate } from "react-router-dom";
 import { Toast } from "../../../components/Toast";
+import { FaCheck } from "react-icons/fa";
 
 type PatientsType = {
   id: string;
@@ -10,6 +11,7 @@ type PatientsType = {
 };
 
 export default function HomeDoctor() {
+  const API_URL = import.meta.env.VITE_API_URL;
   const [patients, setPatients] = useState<PatientsType[]>([]);
   const navigate = useNavigate();
   const [showToast, setShowToast] = useState(false);
@@ -22,7 +24,8 @@ export default function HomeDoctor() {
   useEffect(() => {
     async function fetchPatients() {
       try {
-        const response = await fetch("http://localhost:3000/patients", {
+        ///Trocar patients para queue
+        const response = await fetch(`${API_URL}/patients`, {
           method: "GET",
         });
         const data: PatientsType[] = await response.json();
@@ -38,7 +41,7 @@ export default function HomeDoctor() {
     }
 
     fetchPatients();
-  }, []);
+  }, [API_URL]);
 
   function ageCalculate(yearOfBirth: string): number {
     const today = new Date();
@@ -65,6 +68,32 @@ export default function HomeDoctor() {
     navigate("/chat");
   };
 
+  const updatePatientStatus = (id: string) => {
+    alert(`${id} update`);
+    // async function patchQueue() {
+    //   try {
+    //     const response = await fetch(`${API_URL}/queue/${id}`, {
+    //       method: "PATCH",
+    //       headers: {
+    //         "Content-Type": "application/json",
+    //       },
+    //       body: JSON.stringify({ newStatus: "atendido" }),
+    //     });
+
+    //     if (!response.ok) throw new Error("Erro ao atualizar status do paciente");
+
+    //     const updatedData: PatientsType[] = await response.json();
+    //     setPatients(updatedData);
+    //     setFilteredPatients(updatedData);
+
+    //     alert(`Paciente ${id} atualizado para "atendido"`);
+    //   } catch (error) {
+    //     console.error("Erro ao atualizar paciente:", error);
+    //   }
+    // }
+
+    // patchQueue();
+  };
   return (
     <div className="flex flex-col gap-10 w-full py-10 px-5 md:px-10">
       <h1 className="text-center font-bold text-3xl md:text-4xl text-zinc-800">
@@ -78,9 +107,7 @@ export default function HomeDoctor() {
           Mostrar Toast
         </button>
 
-        {showToast && (
-          <Toast message="Nova mensagem chegou!" />
-        )}
+        {showToast && <Toast message="Nova mensagem chegou!" />}
       </div>
       <div className="flex justify-between">
         <Card
@@ -93,16 +120,27 @@ export default function HomeDoctor() {
           </h2>
           <div className="flex flex-col gap-3 max-h-96 overflow-y-auto">
             {patients.map((patient) => (
-              <div
-                key={patient.id}
-                className="flex flex-col p-3 border-b border-zinc-200 hover:bg-zinc-50 transition-colors rounded cursor-pointer"
-                onClick={() => handleNavigateChat(patient.id, patient.name)}
-              >
-                <p className="font-medium text-zinc-800">{patient.name}</p>
-                <p className="text-sm text-zinc-500">
-                  {ageCalculate(patient.yearOfBirth)} anos
-                </p>
-              </div>
+              <>
+                <div
+                  key={patient.id}
+                  className="flex items-center justify-between p-3 border-b border-zinc-200 hover:bg-zinc-50 transition-colors rounded cursor-pointer"
+                  onClick={() => handleNavigateChat(patient.id, patient.name)}
+                >
+                  <div>
+                    {" "}
+                    <p className="font-medium text-zinc-800">{patient.name}</p>
+                    <p className="text-sm text-zinc-500">
+                      {ageCalculate(patient.yearOfBirth)} anos
+                    </p>
+                  </div>
+                  <div
+                    className="mr-5 text-teal-600 cursor-pointer"
+                    onClick={() => updatePatientStatus(patient.id)}
+                  >
+                    <FaCheck />
+                  </div>
+                </div>
+              </>
             ))}
           </div>
         </Card>
@@ -113,7 +151,7 @@ export default function HomeDoctor() {
             className="p-10 bg-teal-50 shadow-lg rounded-lg flex flex-col justify-around"
           >
             <h3 className="text-zinc-700 font-semibold">
-              Pacientes cadastrados
+              Pacientes para ser atendido
             </h3>{" "}
             <span className="text-7xl font-bold mt-2 text-teal-700">
               {patients.length}
@@ -123,9 +161,9 @@ export default function HomeDoctor() {
             width="100"
             className="p-10 bg-green-50 shadow-lg rounded-lg flex flex-col justify-around"
           >
-            <h3 className="text-zinc-700 font-semibold">Atendimentos hoje</h3>
+            <h3 className="text-zinc-700 font-semibold">Total de pacientes atendidos</h3>
             <span className="text-7xl font-bold mt-2 text-green-700">
-              {patients.length}
+              {patients.length - 2}
             </span>
           </Card>
         </div>

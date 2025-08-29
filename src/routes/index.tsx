@@ -5,7 +5,7 @@ import Login from "../pages/Login";
 import RegisterLogin from "../pages/RegisterLogin";
 import PatientList from "../pages/Patient/List";
 import PatientRegister from "../pages/Patient/Register";
-import Patient from "../pages/Patient";
+import Patient from "../pages/Patient/Form";
 import Dashboard from "../pages/Dashboard";
 import MedicalRecords from "../pages/MedicalRecords";
 import { MainLayout } from "../layout/MainLayout";
@@ -13,6 +13,7 @@ import SearchResult from "../pages/SearchResults";
 import Chat from "../pages/Carol";
 import { PrivateRoute } from "./PrivateRoute";
 import { UserRole } from "../context/AuthContextProvider";
+import FormPatient from "../pages/Patient/Form";
 
 export function AppRouter() {
   return (
@@ -31,6 +32,7 @@ export function AppRouter() {
               </PrivateRoute>
             }
           />
+          <Route path="formulario" element={<FormPatient />} />
         </Route>
         <Route path="/pesquisa/:value" element={<SearchResult />} />
         <Route path="/chat" element={<Chat />} />

@@ -170,6 +170,19 @@
       "yearOfBirth": "2000-09-01",
       "gender": "Feminino",
       "age": 25
+    },
+    {
+      "id": "114c",
+      "name": "Núbia Patricia de Souza Santos",
+      "email": "n.patrycia500.np@gmail.com",
+      "address": "Rua Vereador Abel Ambrósio Da Silva",
+      "phone": "12312312312",
+      "nationality": "123123",
+      "city": "Caruaru",
+      "cpf": "12312312312",
+      "yearOfBirth": "2025-08-29",
+      "gender": "Masculino",
+      "age": 0
     }
   ],
   "notifications": [
@@ -202,6 +215,25 @@
     {
       "disease": "Covid-19",
       "confirmedCases": 200
+    }
+  ],
+  "historicos": [
+    {
+      "patientId": "1",
+      "diagnosis": "Diabetes",
+      "notes": "blablabla"
+    }
+  ],
+  "consultations": [
+    {
+      "id": "61b6",
+      "patientId": "114c",
+      "complaint": "Estou muito mal\n"
+    },
+    {
+      "id": "3d26",
+      "patientId": "114c",
+      "complaint": "dasdasd"
     }
   ]
 }

@@ -7,12 +7,14 @@ import {
   FaChartPie,
   FaSignOutAlt,
 } from "react-icons/fa";
+import { RiRobot3Fill } from "react-icons/ri";
 import { IoNotifications } from "react-icons/io5";
 import logo from "../assets/logo_branca.png";
 import { AuthContext } from "../context/AuthContextProvider";
 import { Drawer } from "./DrawerNotication";
 
 export const Menu = () => {
+  const API_URL = import.meta.env.VITE_API_URL;
   const navigate = useNavigate();
   const { logout } = useContext(AuthContext);
   const [collapsed, setCollapsed] = useState(false);
@@ -22,7 +24,7 @@ export const Menu = () => {
   useEffect(() => {
     async function fetchNotifications() {
       try {
-        const response = await fetch("http://localhost:3000/notifications");
+        const response = await fetch(`${API_URL}/notifications`);
         const data = await response.json();
 
         if (Array.isArray(data)) {
@@ -88,16 +90,6 @@ export const Menu = () => {
           {!collapsed && <span>Lista de Pacientes</span>}
         </Link>
 
-        {userData.role === "nurse" && (
-          <Link
-            to="/paciente/cadastro"
-            className="flex items-center gap-3 p-4 rounded-lg hover:bg-green-700 transition cursor-pointer"
-          >
-            <FaUserPlus />
-            {!collapsed && <span>Cadastrar Paciente</span>}
-          </Link>
-        )}
-
         {userData.role === "doctor" && (
           <>
             <Link
@@ -111,7 +103,7 @@ export const Menu = () => {
               to="/chat"
               className="flex items-center gap-3 p-4 rounded-lg hover:bg-green-700 transition cursor-pointer"
             >
-              <FaChartPie />
+              <RiRobot3Fill  />
               {!collapsed && <span>Chat</span>}
             </Link>
           </>

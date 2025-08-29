@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { SearchInput } from "../../../components/SearchInput";
 import { Card } from "../../../components/Card";
 import { IoClose } from "react-icons/io5";
 
@@ -10,12 +9,14 @@ type PatientsType = {
 };
 
 export default function HomeNurse() {
+  const API_URL = import.meta.env.VITE_API_URL;
   const [patients, setPatients] = useState<PatientsType[]>([]);
 
   useEffect(() => {
     async function fetchPatients() {
       try {
-        const response = await fetch("http://localhost:3000/patients", {
+        ///Trocar patients para queue
+        const response = await fetch(`${API_URL}/patients`, {
           method: "GET",
         });
         const data: PatientsType[] = await response.json();
@@ -31,7 +32,7 @@ export default function HomeNurse() {
     }
 
     fetchPatients();
-  }, []);
+  }, [API_URL]);
 
   function ageCalculate(yearOfBirth: string): number {
     const today = new Date();
@@ -53,27 +54,31 @@ export default function HomeNurse() {
     return age;
   }
 
-  const handleDeletePatientOfQueue = (id: string) => {
-    alert(`Tirou da fila ${id}`);
+  const updatePatientStatus = (id: string) => {
+    alert(`${id} update`);
+    // async function patchQueue() {
+    //   try {
+    //     const response = await fetch(`${API_URL}/queue/${id}`, {
+    //       method: "PATCH",
+    //       headers: {
+    //         "Content-Type": "application/json",
+    //       },
+    //       body: JSON.stringify({ newStatus: "atendido" }),
+    //     });
 
-    /*
-      async function deleteOfQueue() {
-        try {
-          const response = await fetch(`http://localhost:3000/patients/${id}`, {
-            method: "DELETE",
-          });
-          if (!response.ok) throw new Error("Erro ao deletar paciente");
-          
-          const updatedData: PatientsType[] = await response.json();
-          setPatients(updatedData);
-          setFilteredPatients(updatedData);
-        } catch (error) {
-          console.error("Erro ao deletar paciente:", error);
-        }
-      }
+    //     if (!response.ok) throw new Error("Erro ao atualizar status do paciente");
 
-      deleteOfQueue();
-  */
+    //     const updatedData: PatientsType[] = await response.json();
+    //     setPatients(updatedData);
+    //     setFilteredPatients(updatedData);
+
+    //     alert(`Paciente ${id} atualizado para "atendido"`);
+    //   } catch (error) {
+    //     console.error("Erro ao atualizar paciente:", error);
+    //   }
+    // }
+
+    // patchQueue();
   };
 
   return (
@@ -104,7 +109,7 @@ export default function HomeNurse() {
                 </div>
                 <div
                   className="mr-5 text-red-600 cursor-pointer"
-                  onClick={() => handleDeletePatientOfQueue(patient.id)}
+                  onClick={() => updatePatientStatus(patient.id)}
                 >
                   <IoClose />
                 </div>

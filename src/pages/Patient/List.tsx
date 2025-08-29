@@ -14,6 +14,7 @@ type PatientsType = {
 };
 
 export default function PatientList() {
+  const API_URL = import.meta.env.VITE_API_URL;
   const user = localStorage.getItem("user");
   const parsedUser = user ? JSON.parse(user) : null;
   const navigate = useNavigate();
@@ -29,7 +30,7 @@ export default function PatientList() {
   useEffect(() => {
     async function fetchPatients() {
       try {
-        const response = await fetch("http://localhost:3000/patients");
+        const response = await fetch(`${API_URL}/patients`);
         const data: PatientsType[] = await response.json();
         if (Array.isArray(data)) {
           setPatients(data);
@@ -106,7 +107,7 @@ export default function PatientList() {
 
     // async function fetchRegisterPatientInQueue() {
     //   try {
-    //     const response = await fetch(`http://localhost:3000/patients/${id}`, {
+    //     const response = await fetch(`${API_URL}/patients/${id}`, {
     //       method: "PATCH", // ou "POST" se seu endpoint for POST
     //       headers: {
     //         "Content-Type": "application/json",

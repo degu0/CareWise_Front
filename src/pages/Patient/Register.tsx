@@ -43,6 +43,7 @@ const formatCpf = (value: string) => {
 };
 
 export default function PatientRegister() {
+  const API_URL = import.meta.env.VITE_API_URL;
   const navigate = useNavigate();
   const {
     register,
@@ -67,7 +68,7 @@ export default function PatientRegister() {
         age,
       };
 
-      const response = await fetch("http://localhost:3000/patients", {
+      const response = await fetch(`${API_URL}/patients`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
@@ -76,10 +77,9 @@ export default function PatientRegister() {
       if (!response.ok) throw new Error("Erro ao registrar paciente");
 
       const result = await response.json();
-      console.log("Paciente registrado:", result);
-
+      localStorage.setItem("patientRegister", JSON.stringify(result))
       reset();
-      navigate("/paciente/lista");
+      navigate("/formulario");
     } catch (error) {
       console.error("Erro ao registrar paciente:", error);
     }

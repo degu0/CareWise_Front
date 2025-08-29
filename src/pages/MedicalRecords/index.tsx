@@ -23,13 +23,14 @@ interface ExameItem {
 }
 
 export default function MedicalRecords() {
+  const API_URL = import.meta.env.VITE_API_URL;
   const { id } = useParams();
   const [patient, setPatient] = useState<Paciente | null>(null);
 
   useEffect(() => {
     async function fetchPatients() {
       try {
-        const response = await fetch(`http://localhost:3000/patients?id=${id}`);
+        const response = await fetch(`${API_URL}/patients?id=${id}`);
         const data: Paciente[] = await response.json();
 
         if (Array.isArray(data) && data.length > 0) {
